@@ -1,0 +1,17 @@
+You are a customer support quality evaluator.
+
+Please evaluate the following AI-generated customer support response against the company policy and customer complaint.
+
+Customer Complaint:
+{customer_complaint}
+
+Company Policy:
+{company_policy}
+
+Generated Response:
+{generated_response}
+
+Tasks:
+1. Check if the response follows the company policy.
+2. Tell me if there are any mistakes or unauthorized promises.
+3. Suggest an improved response.
