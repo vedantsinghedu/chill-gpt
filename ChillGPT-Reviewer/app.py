@@ -10,6 +10,7 @@ import os
 import sys
 from pathlib import Path
 import streamlit as st
+import streamlit.components.v1 as components
 import json
 
 current_dir = Path(__file__).resolve().parent
@@ -69,11 +70,11 @@ PRESETS = {
 # Sidebar - Settings & Preset Selection
 with st.sidebar:
     st.markdown("""
-    <div style="padding: 10px 0 16px 0; border-bottom: 1px solid var(--border-color); margin-bottom: 16px;">
-        <div style="font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em;">
+    <div style="padding: 10px 0 14px 0; border-bottom: 1px solid var(--border-color); margin-bottom: 16px;">
+        <div style="font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em;">
             🛡️ AUDITOR SETTINGS
         </div>
-        <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">
+        <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">
             Part 2 Quality Engine
         </div>
     </div>
@@ -123,42 +124,7 @@ st.markdown(f"""
             <span>Auditor Active</span>
         </div>
         <div class="pro-card-badge">
-            {st.session_state['theme_mode'].upper()} MODE
-        </div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
-# Stepper
-has_audited = ("review_results" in st.session_state)
-st.markdown(f"""
-<div class="workflow-stepper">
-    <div class="step-card active-step">
-        <div class="step-badge">01</div>
-        <div class="step-text">
-            <span class="step-title">Grievance & Terms</span>
-            <span class="step-desc">Intake & Policy</span>
-        </div>
-    </div>
-    <div class="step-card active-step">
-        <div class="step-badge">02</div>
-        <div class="step-text">
-            <span class="step-title">Draft Response</span>
-            <span class="step-desc">Agent or AI Text</span>
-        </div>
-    </div>
-    <div class="step-card {'active-step' if has_audited else ''}">
-        <div class="step-badge">03</div>
-        <div class="step-text">
-            <span class="step-title">Policy & Tone Audit</span>
-            <span class="step-desc">Validation & Score</span>
-        </div>
-    </div>
-    <div class="step-card {'active-step' if has_audited else ''}">
-        <div class="step-badge">04</div>
-        <div class="step-text">
-            <span class="step-title">Approved Resolution</span>
-            <span class="step-desc">Verified Response</span>
+            {st.session_state['theme_mode'].upper()}
         </div>
     </div>
 </div>
@@ -166,59 +132,50 @@ st.markdown(f"""
 
 preset_data = PRESETS[selected_scenario]
 
-# 3 Columns for Intake, Policy, and Draft Response
-col1, col2, col3 = st.columns([1.1, 1.1, 1.2], gap="medium")
+# 2-Column Compact Intake
+col_inputs, col_draft = st.columns([1.1, 1.1], gap="large")
 
-with col1:
+with col_inputs:
     st.markdown("""
     <div class="pro-card-header" style="margin-bottom: 8px;">
         <div class="pro-card-title">
-            <span>📩</span> Customer Complaint
+            <span>📩</span> Customer Grievance & Policy
         </div>
-        <span class="pro-card-badge">01 Intake</span>
+        <span class="pro-card-badge">01 Intake & Rules</span>
     </div>
     """, unsafe_allow_html=True)
     complaint_input = st.text_area(
         "Complaint Input",
         value=preset_data["complaint"],
-        height=180,
-        label_visibility="collapsed"
+        height=100,
+        label_visibility="collapsed",
+        placeholder="Customer complaint text..."
     )
-
-with col2:
-    st.markdown("""
-    <div class="pro-card-header" style="margin-bottom: 8px;">
-        <div class="pro-card-title">
-            <span>📋</span> Company Policy
-        </div>
-        <span class="pro-card-badge">02 Rules</span>
-    </div>
-    """, unsafe_allow_html=True)
     policy_input = st.text_area(
         "Policy Input",
         value=preset_data["policy"],
-        height=180,
-        label_visibility="collapsed"
+        height=100,
+        label_visibility="collapsed",
+        placeholder="Company policy rules..."
     )
 
-with col3:
+with col_draft:
     st.markdown("""
     <div class="pro-card-header" style="margin-bottom: 8px;">
         <div class="pro-card-title">
             <span>✍️</span> Response Draft to Audit
         </div>
-        <span class="pro-card-badge">03 Draft</span>
+        <span class="pro-card-badge">02 Agent / AI Draft</span>
     </div>
     """, unsafe_allow_html=True)
     response_input = st.text_area(
         "Draft Input",
         value=preset_data["response"],
-        height=180,
+        height=145,
         label_visibility="collapsed"
     )
 
-st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
-review_clicked = st.button("AUDIT & VALIDATE RESPONSE →", type="primary", use_container_width=True)
+    review_clicked = st.button("AUDIT & VALIDATE RESPONSE →", type="primary", use_container_width=True)
 
 if review_clicked or "review_results" in st.session_state:
     if review_clicked:
@@ -233,120 +190,24 @@ if review_clicked or "review_results" in st.session_state:
     else:
         results = st.session_state["review_results"]
 
-    st.markdown("<hr style='border: 1px solid var(--border-color); margin: 36px 0 24px 0;'>", unsafe_allow_html=True)
-
     status = results.get("compliance_status", "Non-Compliant")
     chip_class = "chip-compliant" if status == "Compliant" else ("chip-partially" if status == "Partially Compliant" else "chip-noncompliant")
     mode = results.get("analysis_mode", "deterministic_fallback")
     mode_label = "🤖 Gemini AI Evaluation" if mode == "ai_gemini" else "⚙️ Deterministic Validation Engine"
-
-    st.markdown(f"""
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <div style="font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em;">
-                🛡️ Audit Results & Compliance Assessment
-            </div>
-            <div class="status-chip {chip_class}">
-                {status}
-            </div>
-        </div>
-        <div style="font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:var(--text-muted);">{mode_label}</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # 2-Column Audit Breakdown
-    res_col1, res_col2 = st.columns(2, gap="medium")
-    with res_col1:
-        st.markdown("""
-        <div class="metric-tile">
-            <div class="metric-tile-label" style="margin-bottom: 8px;">⚖️ Policy Violations & Commitments</div>
-        """, unsafe_allow_html=True)
-        violations = results.get("policy_violations", [])
-        if violations:
-            for v in violations:
-                st.markdown(f"""
-                <div class="alert-container-danger">
-                    <strong>Policy Violation:</strong> {v}
-                </div>
-                """, unsafe_allow_html=True)
-        else:
-            st.markdown("""
-            <div class="alert-container-success">
-                ✅ <strong>No policy violations detected:</strong> The draft strictly adheres to company guidelines.
-            </div>
-            """, unsafe_allow_html=True)
-
-        fp_data = results.get("false_promises", {})
-        fp_detected = fp_data.get("detected") or fp_data.get("false_promise_detected") == "Yes"
-        if fp_detected:
-            for s in fp_data.get("suspicious_statements", []):
-                st.markdown(f"""
-                <div class="alert-container-warning">
-                    ⚠️ <strong>False Promise Alert:</strong> <em>"{s}"</em>
-                </div>
-                """, unsafe_allow_html=True)
-        else:
-            st.markdown("""
-            <div class="alert-container-success">
-                ✅ <strong>Zero false promises:</strong> No unauthorized commitments made to the customer.
-            </div>
-            """, unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    with res_col2:
-        st.markdown("""
-        <div class="metric-tile">
-            <div class="metric-tile-label" style="margin-bottom: 8px;">📋 Required Customer Details</div>
-        """, unsafe_allow_html=True)
-        missing = results.get("missing_information", [])
-        if missing:
-            for idx, item in enumerate(missing, 1):
-                st.markdown(f"""
-                <div class="alert-container-warning">
-                    <strong>{idx}. {item.get('item', 'Item')}:</strong> {item.get('reason', '')}
-                </div>
-                """, unsafe_allow_html=True)
-        else:
-            st.markdown("""
-            <div class="alert-container-success">
-                ✅ <strong>Complete:</strong> All necessary verification details requested from the customer.
-            </div>
-            """, unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    # Tone Scores (1-10)
-    st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
-    scores = results.get("tone_scores", {})
-    sc_cols = st.columns(5)
-    metrics_meta = [
-        ("Professionalism", scores.get("professionalism", 7)),
-        ("Empathy", scores.get("empathy", 5)),
-        ("Politeness", scores.get("politeness", 6)),
-        ("Clarity", scores.get("clarity", 7)),
-        ("Friendliness", scores.get("customer_friendliness", 6)),
-    ]
-    for col, (label, val) in zip(sc_cols, metrics_meta):
-        with col:
-            st.markdown(f"""
-            <div class="tone-metric-row">
-                <div class="tone-score-num">{val}/10</div>
-                <div class="tone-score-tag">{label}</div>
-            </div>
-            """, unsafe_allow_html=True)
-            st.progress(max(0.0, min(1.0, val / 10.0)))
-
-    # Final Word Centerpiece
-    st.markdown("<hr style='border: 1px solid var(--border-color); margin: 34px 0 20px 0;'>", unsafe_allow_html=True)
     improved_text = results.get("improved_response", "")
 
+    st.markdown("<hr style='border: 1px solid var(--border-color); margin: 24px 0 18px 0;'>", unsafe_allow_html=True)
+
+    # FINAL AUDITED RESPONSE PLACED IMMEDIATELY AT TOP (ZERO SCROLLING!)
     st.markdown(f"""
     <div class="resolution-card">
         <div class="resolution-header">
-            <div style="font-size: 1.15rem; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+            <div style="font-size: 1.25rem; font-weight: 800; display: flex; align-items: center; gap: 10px;">
                 <span>✨</span> Final Audited Response
             </div>
-            <div style="display: flex; gap: 8px;">
-                <span class="status-chip chip-compliant">AUDITED</span>
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <span class="status-chip {chip_class}">{status}</span>
+                <span style="font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:var(--text-muted);">{mode_label}</span>
             </div>
         </div>
         <div class="resolution-body">
@@ -355,8 +216,137 @@ if review_clicked or "review_results" in st.session_state:
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("##### 📄 Markdown Code Copy")
-    st.code(improved_text, language="markdown")
+    # 1-Click Copy Button
+    copy_html = f"""
+    <button id="copyFinalBtn" onclick="copyFinalResponse()" style="
+        background-color: var(--primary-blue, #1D4ED8);
+        color: #FFFFFF;
+        border: none;
+        border-radius: 10px;
+        padding: 13px 26px;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 1.02rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.15s ease;
+        margin-bottom: 16px;
+    ">
+        <span id="copyIcon">📋</span> <span id="copyText">Copy Audited Response</span>
+    </button>
+    <script>
+    function copyFinalResponse() {{
+        const text = {json.dumps(improved_text)};
+        navigator.clipboard.writeText(text).then(() => {{
+            const btn = document.getElementById('copyFinalBtn');
+            const icon = document.getElementById('copyIcon');
+            const label = document.getElementById('copyText');
+            btn.style.backgroundColor = '#059669';
+            icon.innerText = '✅';
+            label.innerText = 'Copied to Clipboard!';
+            setTimeout(() => {{
+                btn.style.backgroundColor = '#1D4ED8';
+                icon.innerText = '📋';
+                label.innerText = 'Copy Audited Response';
+            }}, 2500);
+        }}).catch(err => console.error(err));
+    }}
+    </script>
+    """
+    components.html(copy_html, height=56)
+
+    # Clean Tabs for Audit Details (Zero Scrolling!)
+    tab_audit_details, tab_tone, tab_raw_json = st.tabs([
+        "🛡️ Policy & Information Verification",
+        "📊 5-Dimension Tone Scores",
+        "🛠️ Audit Payload JSON"
+    ])
+
+    with tab_audit_details:
+        res_col1, res_col2 = st.columns(2, gap="medium")
+        with res_col1:
+            st.markdown("""
+            <div class="metric-tile">
+                <div class="metric-tile-label" style="margin-bottom: 8px;">⚖️ Policy Violations & Commitments</div>
+            """, unsafe_allow_html=True)
+            violations = results.get("policy_violations", [])
+            if violations:
+                for v in violations:
+                    st.markdown(f"""
+                    <div class="alert-container-danger">
+                        <strong>Policy Violation:</strong> {v}
+                    </div>
+                    """, unsafe_allow_html=True)
+            else:
+                st.markdown("""
+                <div class="alert-container-success">
+                    ✅ <strong>No policy violations detected:</strong> The draft strictly adheres to company guidelines.
+                </div>
+                """, unsafe_allow_html=True)
+
+            fp_data = results.get("false_promises", {})
+            fp_detected = fp_data.get("detected") or fp_data.get("false_promise_detected") == "Yes"
+            if fp_detected:
+                for s in fp_data.get("suspicious_statements", []):
+                    st.markdown(f"""
+                    <div class="alert-container-warning">
+                        ⚠️ <strong>False Promise Alert:</strong> <em>"{s}"</em>
+                    </div>
+                    """, unsafe_allow_html=True)
+            else:
+                st.markdown("""
+                <div class="alert-container-success">
+                    ✅ <strong>Zero false promises:</strong> No unauthorized commitments made to the customer.
+                </div>
+                """, unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True)
+
+        with res_col2:
+            st.markdown("""
+            <div class="metric-tile">
+                <div class="metric-tile-label" style="margin-bottom: 8px;">📋 Required Customer Details</div>
+            """, unsafe_allow_html=True)
+            missing = results.get("missing_information", [])
+            if missing:
+                for idx, item in enumerate(missing, 1):
+                    st.markdown(f"""
+                    <div class="alert-container-warning">
+                        <strong>{idx}. {item.get('item', 'Item')}:</strong> {item.get('reason', '')}
+                    </div>
+                    """, unsafe_allow_html=True)
+            else:
+                st.markdown("""
+                <div class="alert-container-success">
+                    ✅ <strong>Complete:</strong> All necessary verification details requested from the customer.
+                </div>
+                """, unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True)
+
+    with tab_tone:
+        scores = results.get("tone_scores", {})
+        sc_cols = st.columns(5)
+        metrics_meta = [
+            ("Professionalism", scores.get("professionalism", 7)),
+            ("Empathy", scores.get("empathy", 5)),
+            ("Politeness", scores.get("politeness", 6)),
+            ("Clarity", scores.get("clarity", 7)),
+            ("Friendliness", scores.get("customer_friendliness", 6)),
+        ]
+        for col, (label, val) in zip(sc_cols, metrics_meta):
+            with col:
+                st.markdown(f"""
+                <div class="tone-metric-row">
+                    <div class="tone-score-num">{val}/10</div>
+                    <div class="tone-score-tag">{label}</div>
+                </div>
+                """, unsafe_allow_html=True)
+                st.progress(max(0.0, min(1.0, val / 10.0)))
+
+    with tab_raw_json:
+        st.json(results)
 
 # Footer
 st.markdown(f"""

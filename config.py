@@ -189,45 +189,49 @@ h1, h2, h3, h4, h5, h6 {{
     margin-top: 0 !important;
 }}
 
+p, span, div, label {{
+    font-size: 1.02rem;
+}}
+
 /* Header Navigation Bar */
 .app-navbar {{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 18px;
+    padding: 14px 22px;
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 14px;
     box-shadow: var(--shadow-card);
-    margin-bottom: 24px;
+    margin-bottom: 22px;
     transition: all 0.2s ease;
 }}
 .nav-brand-group {{
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
 }}
 .brand-logo-icon {{
     background: var(--primary-blue);
     color: #FFFFFF;
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
-    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+    font-size: 1.3rem;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
 }}
 .brand-name {{
-    font-size: 1.25rem;
+    font-size: 1.38rem;
     font-weight: 800;
     color: var(--text-primary);
     letter-spacing: -0.03em;
     line-height: 1.1;
 }}
 .brand-tagline {{
-    font-size: 0.76rem;
+    font-size: 0.84rem;
     color: var(--text-muted);
     font-weight: 500;
 }}
@@ -241,17 +245,17 @@ h1, h2, h3, h4, h5, h6 {{
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.8rem;
+    font-size: 0.88rem;
     font-weight: 600;
     color: var(--text-secondary);
     background: var(--bg-card-alt);
-    padding: 6px 14px;
+    padding: 7px 16px;
     border-radius: 20px;
     border: 1px solid var(--border-color);
 }}
 .status-dot {{
-    width: 8px;
-    height: 8px;
+    width: 9px;
+    height: 9px;
     background-color: #10B981;
     border-radius: 50%;
     box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
@@ -262,7 +266,7 @@ h1, h2, h3, h4, h5, h6 {{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 12px;
-    margin-bottom: 26px;
+    margin-bottom: 22px;
 }}
 .step-card {{
     background: var(--bg-card);
@@ -280,16 +284,16 @@ h1, h2, h3, h4, h5, h6 {{
     transform: translateY(-1px);
 }}
 .step-badge {{
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     border-radius: 8px;
     background: var(--bg-card-alt);
     color: var(--text-muted);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 0.82rem;
+    font-weight: 800;
+    font-size: 0.9rem;
     font-family: 'JetBrains Mono', monospace;
 }}
 .step-card.active-step {{
@@ -305,13 +309,13 @@ h1, h2, h3, h4, h5, h6 {{
     flex-direction: column;
 }}
 .step-title {{
-    font-size: 0.82rem;
+    font-size: 0.9rem;
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1.2;
 }}
 .step-desc {{
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     color: var(--text-muted);
 }}
 
@@ -320,7 +324,7 @@ h1, h2, h3, h4, h5, h6 {{
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 14px;
-    padding: 22px 24px;
+    padding: 24px 26px;
     box-shadow: var(--shadow-card);
     margin-bottom: 20px;
     transition: all 0.15s ease;
@@ -333,12 +337,12 @@ h1, h2, h3, h4, h5, h6 {{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 14px;
-    margin-bottom: 16px;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
     border-bottom: 1px solid var(--border-color);
 }}
 .pro-card-title {{
-    font-size: 1.05rem;
+    font-size: 1.18rem;
     font-weight: 700;
     color: var(--text-primary);
     display: flex;
@@ -347,11 +351,11 @@ h1, h2, h3, h4, h5, h6 {{
     letter-spacing: -0.015em;
 }}
 .pro-card-badge {{
-    font-size: 0.72rem;
-    font-weight: 600;
+    font-size: 0.78rem;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    padding: 4px 10px;
+    padding: 5px 12px;
     border-radius: 6px;
     background: var(--bg-card-alt);
     color: var(--text-muted);
@@ -365,14 +369,14 @@ h1, h2, h3, h4, h5, h6 {{
     border: 1px solid var(--border-strong) !important;
     border-radius: 10px !important;
     font-family: 'Plus Jakarta Sans', sans-serif !important;
-    font-size: 0.94rem !important;
-    line-height: 1.6 !important;
-    padding: 12px 14px !important;
+    font-size: 1.05rem !important;
+    line-height: 1.65 !important;
+    padding: 14px 16px !important;
     transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
 }}
 .stTextArea textarea:focus {{
     border-color: var(--primary-blue) !important;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
 }}
 
 /* Interactive Buttons */
@@ -383,8 +387,8 @@ h1, h2, h3, h4, h5, h6 {{
     border-radius: 10px !important;
     font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-weight: 700 !important;
-    font-size: 0.95rem !important;
-    padding: 12px 24px !important;
+    font-size: 1.05rem !important;
+    padding: 14px 26px !important;
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25) !important;
     transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
     cursor: pointer !important;
@@ -405,8 +409,8 @@ h1, h2, h3, h4, h5, h6 {{
     border-radius: 10px !important;
     font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-weight: 600 !important;
-    font-size: 0.88rem !important;
-    padding: 10px 18px !important;
+    font-size: 0.94rem !important;
+    padding: 11px 20px !important;
     transition: all 0.15s ease !important;
 }}
 .stButton > button:not([kind="primary"]):hover {{
@@ -416,15 +420,15 @@ h1, h2, h3, h4, h5, h6 {{
 
 /* Segmented Tone Selector */
 [data-testid="stRadio"] > div {{
-    gap: 8px !important;
+    gap: 10px !important;
 }}
 [data-testid="stRadio"] label {{
     background: var(--bg-card) !important;
     border: 1px solid var(--border-strong) !important;
-    padding: 8px 16px !important;
+    padding: 9px 18px !important;
     border-radius: 8px !important;
     font-weight: 600 !important;
-    font-size: 0.88rem !important;
+    font-size: 0.95rem !important;
     color: var(--text-secondary) !important;
     transition: all 0.15s ease !important;
     cursor: pointer !important;
@@ -438,8 +442,8 @@ h1, h2, h3, h4, h5, h6 {{
 .metric-tile {{
     background: var(--bg-card-alt);
     border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 14px 16px;
+    border-radius: 12px;
+    padding: 16px 18px;
     height: 100%;
     transition: transform 0.15s ease;
 }}
@@ -447,20 +451,20 @@ h1, h2, h3, h4, h5, h6 {{
     transform: translateY(-1px);
 }}
 .metric-tile-label {{
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--text-muted);
-    margin-bottom: 4px;
+    margin-bottom: 5px;
 }}
 .metric-tile-value {{
-    font-size: 1.15rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--text-primary);
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
 }}
 
 /* Status Indicator Badges */
@@ -468,9 +472,9 @@ h1, h2, h3, h4, h5, h6 {{
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 4px 12px;
+    padding: 5px 14px;
     border-radius: 20px;
-    font-size: 0.8rem;
+    font-size: 0.86rem;
     font-weight: 700;
     letter-spacing: 0.02em;
     text-transform: uppercase;
@@ -496,57 +500,60 @@ h1, h2, h3, h4, h5, h6 {{
     background: var(--status-danger-bg);
     border-left: 4px solid #DC2626;
     border-radius: 0 8px 8px 0;
-    padding: 12px 16px;
+    padding: 14px 18px;
     color: var(--status-danger-text);
-    margin-bottom: 10px;
+    font-size: 0.98rem;
+    margin-bottom: 12px;
 }}
 .alert-container-warning {{
     background: var(--status-warning-bg);
     border-left: 4px solid #D97706;
     border-radius: 0 8px 8px 0;
-    padding: 12px 16px;
+    padding: 14px 18px;
     color: var(--status-warning-text);
-    margin-bottom: 10px;
+    font-size: 0.98rem;
+    margin-bottom: 12px;
 }}
 .alert-container-success {{
     background: var(--status-compliant-bg);
     border-left: 4px solid #10B981;
     border-radius: 0 8px 8px 0;
-    padding: 12px 16px;
+    padding: 14px 18px;
     color: var(--status-compliant-text);
-    margin-bottom: 10px;
+    font-size: 0.98rem;
+    margin-bottom: 12px;
 }}
 
 /* Tone Scores Visual Progress Meters */
 .tone-metric-row {{
     background: var(--bg-card-alt);
     border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 12px 14px;
+    border-radius: 12px;
+    padding: 14px 16px;
     text-align: center;
 }}
 .tone-score-num {{
-    font-size: 1.35rem;
+    font-size: 1.55rem;
     font-weight: 800;
     color: var(--primary-blue);
     font-family: 'JetBrains Mono', monospace;
 }}
 .tone-score-tag {{
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
     color: var(--text-muted);
-    margin-top: 2px;
+    margin-top: 3px;
 }}
 
 /* Resolution Centerpiece Card */
 .resolution-card {{
     background: var(--bg-card);
-    border: 1.5px solid var(--border-strong);
+    border: 2px solid var(--primary-blue);
     border-radius: 16px;
-    padding: 26px 28px;
+    padding: 24px 28px;
     box-shadow: var(--shadow-float);
-    margin: 24px 0;
+    margin: 18px 0 24px 0;
     animation: fadeInScale 0.25s ease;
 }}
 .resolution-header {{
@@ -554,19 +561,22 @@ h1, h2, h3, h4, h5, h6 {{
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--border-color);
-    padding-bottom: 16px;
-    margin-bottom: 20px;
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 10px;
 }}
 .resolution-body {{
     background: var(--bg-card-alt);
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    padding: 22px 24px;
-    font-size: 1.02rem;
-    line-height: 1.7;
+    padding: 22px 26px;
+    font-size: 1.18rem !important;
+    line-height: 1.75 !important;
     color: var(--text-primary);
     white-space: pre-wrap;
     font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 500;
 }}
 
 /* Tabs Styling */
@@ -579,9 +589,9 @@ h1, h2, h3, h4, h5, h6 {{
 }}
 [data-testid="stTabs"] [data-baseweb="tab"] {{
     border-radius: 8px !important;
-    padding: 8px 16px !important;
+    padding: 10px 20px !important;
     font-weight: 600 !important;
-    font-size: 0.88rem !important;
+    font-size: 0.95rem !important;
     color: var(--text-muted) !important;
     transition: all 0.15s ease !important;
 }}
@@ -596,7 +606,7 @@ h1, h2, h3, h4, h5, h6 {{
     border: 1px solid var(--border-color) !important;
     background: var(--bg-card) !important;
     font-weight: 600 !important;
-    font-size: 0.92rem !important;
+    font-size: 1.02rem !important;
     transition: all 0.15s ease !important;
 }}
 .streamlit-expanderHeader:hover {{
