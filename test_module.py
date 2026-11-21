@@ -2,6 +2,10 @@
 Unit tests for ChillGPT - Part 1: Complaint Analysis & Response Generation
 """
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 import unittest
 import json
 from config import load_sample_policies, load_sample_complaints

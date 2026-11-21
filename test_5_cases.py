@@ -8,6 +8,10 @@ Covers the 5 required test cases:
 5. Complaint where company policy clearly does not allow the requested refund or replacement.
 """
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 import unittest
 from modules.llm_client import LLMClient
 from modules.analyzer import ComplaintAnalyzer

@@ -12,6 +12,7 @@ Authors: College Team (Part 1 Owner)
 import streamlit as st
 import streamlit.components.v1 as components
 import json
+import os
 from typing import Dict, Any
 
 from config import (
@@ -26,7 +27,7 @@ from config import (
 from modules.llm_client import LLMClient
 from modules.analyzer import ComplaintAnalyzer
 from modules.generator import ResponseGenerator
-from modules.reviewer_interface import create_handoff_package
+from modules.reviewer_interface import create_handoff_package, ChillGPTReviewer, DraftResponseHandoff
 from modules.prompts import (
     CORE_SYSTEM_PROMPT,
     ANALYSIS_USER_PROMPT,
@@ -474,23 +475,145 @@ if st.session_state["analysis_result"] and st.session_state["draft_response"]:
     st.markdown("<hr style='margin: 35px 0;'>", unsafe_allow_html=True)
 
     # ==========================================================================
-    # SECTION 3: TEAMMATE INTEGRATION HOOK (PART 2 HANDOFF)
+    # SECTION 3: PART 2 RESPONSE REVIEW & POLICY VALIDATION (MEMBER 2 - VEDANT)
     # ==========================================================================
-    st.markdown("### 🤝 **Section 3: Teammate Handoff (Part 2: Review & Validation)**")
+    st.markdown("### 🛡️ **Section 3: Response Review & Policy Validation (Part 2 — Vedant)**")
+    st.caption("Automated Quality Gate & Policy Guardrail: Auditing Part 1's draft for policy compliance, false promises, missing info, and tone excellence.")
+
+    handoff_dict = st.session_state["handoff_data"]
+    handoff_obj = DraftResponseHandoff(
+        complaint_text=handoff_dict["complaint_text"],
+        company_policy=handoff_dict["company_policy"],
+        analysis=handoff_dict["analysis"],
+        tone=handoff_dict["tone"],
+        draft_response=handoff_dict["draft_response"],
+        metadata=handoff_dict.get("metadata", {})
+    )
+
+    reviewer = ChillGPTReviewer()
+    review_api_key = api_key if provider_slug == "gemini" and api_key else os.environ.get("GEMINI_API_KEY", "")
+
+    with st.spinner("Part 2: Auditing response compliance and evaluating tone..."):
+        audit_res = reviewer.validate_draft(handoff_obj, api_key=review_api_key)
+
+    # 1. Status Overview Banner
+    status = audit_res.get("compliance_status", "Non-Compliant")
+    badge_bg = "#DCFCE7" if status == "Compliant" else ("#FEF3C7" if status == "Partially Compliant" else "#FEE2E2")
+    badge_color = "#15803D" if status == "Compliant" else ("#B45309" if status == "Partially Compliant" else "#B91C1C")
+    badge_border = "#86EFAC" if status == "Compliant" else ("#FCD34D" if status == "Partially Compliant" else "#FCA5A5")
+    mode_text = "🤖 Gemini AI Evaluation" if audit_res.get("analysis_mode") == "ai_gemini" else "⚙️ Deterministic Local Validation Engine"
+
     st.markdown(f"""
-    <div class="handoff-box">
-        <div class="handoff-title">📦 Data Package Ready for Teammate Module</div>
-        <p style="margin: 0; color: #166534; font-size: 0.9rem;">
-            Part 1 execution is complete. The structured complaint analysis and generated draft response
-            have been packaged into <code>st.session_state["handoff_data"]</code>. Your teammate can now
-            seamlessly ingest this state to implement their Review & Validation rules!
-        </p>
+    <div style="display: flex; align-items: center; justify-content: space-between; background: #FFFFFF; border: 1px solid #E2E8F0; padding: 14px 18px; border-radius: 8px; margin-bottom: 18px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-weight: 600; color: #0F172A; font-size: 0.95rem;">Policy Compliance Status:</span>
+            <span style="background: {badge_bg}; color: {badge_color}; border: 1px solid {badge_border}; padding: 3px 10px; border-radius: 5px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase;">
+                {status}
+            </span>
+        </div>
+        <div>
+            <span style="background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; padding: 3px 10px; border-radius: 5px; font-size: 0.82rem; font-weight: 600;">
+                {mode_text}
+            </span>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
-    with st.expander("👁️ View Handoff Data Contract (JSON Payload for Part 2)"):
-        st.caption("Standardized schema created by Part 1:")
-        st.json(st.session_state["handoff_data"])
+    # 2. Tabs for Audit Results
+    tab_p2_audit, tab_p2_tone, tab_p2_improved, tab_p2_handoff = st.tabs([
+        "🛡️ Policy & False Promises",
+        "🎭 Tone Scores (1-10)",
+        "✨ Final Improved Response",
+        "📦 Teammate Handoff Data"
+    ])
+
+    with tab_p2_audit:
+        col_audit1, col_audit2 = st.columns(2, gap="medium")
+        with col_audit1:
+            st.markdown("##### A. Policy Compliance Checker")
+            violations = audit_res.get("policy_violations", [])
+            if violations:
+                st.markdown(f"<div style='background:#FEF2F2; border-left:4px solid #DC2626; padding:10px 14px; border-radius:0 6px 6px 0; color:#991B1B; margin-bottom:10px;'><strong>Detected {len(violations)} Issue(s):</strong></div>", unsafe_allow_html=True)
+                for v in violations:
+                    st.markdown(f"- ❌ {v}")
+            else:
+                st.markdown("<div style='background:#F0FDF4; border-left:4px solid #16A34A; padding:10px 14px; border-radius:0 6px 6px 0; color:#166534; margin-bottom:10px;'>✅ <strong>Fully Compliant:</strong> Draft adheres to all policy terms.</div>", unsafe_allow_html=True)
+
+            st.markdown("##### B. False Promise Detection")
+            fp_data = audit_res.get("false_promises", {})
+            fp_detected = fp_data.get("detected") or fp_data.get("false_promise_detected") == "Yes"
+            if fp_detected:
+                st.markdown("<div style='background:#FFFBEB; border-left:4px solid #D97706; padding:10px 14px; border-radius:0 6px 6px 0; color:#92400E; margin-bottom:10px;'>⚠️ <strong>Unauthorized Commitments Detected:</strong></div>", unsafe_allow_html=True)
+                for s in fp_data.get("suspicious_statements", []):
+                    st.markdown(f"> *\"{s}\"*")
+                if fp_data.get("explanation"):
+                    st.caption(f"**Reason**: {fp_data.get('explanation')}")
+            else:
+                st.markdown("<div style='background:#F0FDF4; border-left:4px solid #16A34A; padding:10px 14px; border-radius:0 6px 6px 0; color:#166534; margin-bottom:10px;'>✅ <strong>No False Promises:</strong> No unapproved refunds, guarantees, or vouchers detected.</div>", unsafe_allow_html=True)
+
+        with col_audit2:
+            st.markdown("##### C. Missing Information Detection")
+            missing = audit_res.get("missing_information", [])
+            if missing:
+                st.markdown(f"<div style='background:#FFFBEB; border-left:4px solid #D97706; padding:10px 14px; border-radius:0 6px 6px 0; color:#92400E; margin-bottom:10px;'>⚠️ <strong>{len(missing)} Required Detail(s) Missing:</strong></div>", unsafe_allow_html=True)
+                for idx, m in enumerate(missing, 1):
+                    st.markdown(f"**{idx}. {m.get('item', 'Detail')}**")
+                    st.caption(f"Reason: {m.get('reason', '')}")
+            else:
+                st.markdown("<div style='background:#F0FDF4; border-left:4px solid #16A34A; padding:10px 14px; border-radius:0 6px 6px 0; color:#166534; margin-bottom:10px;'>✅ <strong>Complete:</strong> All necessary verification details requested.</div>", unsafe_allow_html=True)
+
+    with tab_p2_tone:
+        st.markdown("##### D. Tone & Professionalism Evaluation (1-10 Scale)")
+        tone_scores = audit_res.get("tone_scores", {})
+        sc_cols = st.columns(5)
+        metrics_meta = [
+            ("Professionalism", tone_scores.get("professionalism", 7)),
+            ("Empathy", tone_scores.get("empathy", 5)),
+            ("Politeness", tone_scores.get("politeness", 6)),
+            ("Clarity", tone_scores.get("clarity", 7)),
+            ("Friendliness", tone_scores.get("customer_friendliness", 6)),
+        ]
+        for col, (label, val) in zip(sc_cols, metrics_meta):
+            with col:
+                st.markdown(f"""
+                <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:10px; text-align:center;">
+                    <div style="font-size:1.35rem; font-weight:700; color:#1E40AF;">{val} / 10</div>
+                    <div style="font-size:0.75rem; color:#64748B; text-transform:uppercase; font-weight:600;">{label}</div>
+                </div>
+                """, unsafe_allow_html=True)
+                st.progress(max(0.0, min(1.0, val / 10.0)))
+
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown("**Overall Tone Assessment:**")
+        st.info(audit_res.get("tone_assessment", ""))
+
+        if audit_res.get("improvement_suggestions"):
+            st.markdown("**Suggestions for Tone Optimization:**")
+            for sug in audit_res["improvement_suggestions"]:
+                st.markdown(f"- 💡 {sug}")
+
+    with tab_p2_improved:
+        st.markdown("##### E. Final Improved Response (Part 2 Validated)")
+        st.caption("Policy-compliant, empathetic, free of unauthorized promises, and clearly requesting missing info.")
+
+        improved_text = audit_res.get("improved_response", "")
+        col_comp1, col_comp2 = st.columns(2, gap="medium")
+        with col_comp1:
+            st.markdown("**Original Part 1 Draft:**")
+            st.text_area("Original Draft", value=draft, height=220, disabled=True, label_visibility="collapsed")
+        with col_comp2:
+            st.markdown("**Part 2 Validated Final Response:**")
+            st.text_area("Improved Response", value=improved_text, height=220, disabled=True, label_visibility="collapsed")
+
+        st.markdown("##### Copy Final Response:")
+        st.code(improved_text, language="markdown")
+
+    with tab_p2_handoff:
+        st.markdown("##### Standardized Handoff Data Contract")
+        st.caption("Data passed between Part 1 and Part 2:")
+        st.json(handoff_dict)
+        st.markdown("##### Part 2 Structured Audit Output")
+        st.json(audit_res)
 
     # ==========================================================================
     # SECTION 4: PROMPT ENGINEERING INSPECTOR (ACADEMIC EVALUATION)

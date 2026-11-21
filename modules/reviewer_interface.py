@@ -5,7 +5,7 @@ IMPORTANT NOTE FOR TEAMMATE (PART 2 DEVELOPER):
 This file defines the official data contract and integration hook for
 Part 2: Review and Validation Module.
 
-Your module will receive the 'DraftResponseHandoff' package created below,
+Your module receives the 'DraftResponseHandoff' package created below,
 containing:
 1. The original customer complaint
 2. The company policy
@@ -15,9 +15,18 @@ containing:
 ==============================================================================
 """
 
+import sys
+from pathlib import Path
 from typing import Dict, Any, Optional
 from datetime import datetime, timezone
 import json
+
+# Connect Part 2 module directly from ChillGPT-Reviewer
+reviewer_dir = Path(__file__).resolve().parent.parent / "ChillGPT-Reviewer"
+if str(reviewer_dir) not in sys.path:
+    sys.path.insert(0, str(reviewer_dir))
+
+from modules.response_reviewer import review_response
 
 
 class DraftResponseHandoff:
@@ -63,16 +72,32 @@ class DraftResponseHandoff:
 
 class ReviewerModuleInterface:
     """
-    Abstract / base interface reserved for the Part 2 teammate.
-    Your teammate should inherit from this class when implementing their module.
+    Abstract / base interface for the Part 2 teammate.
     """
 
-    def validate_draft(self, handoff: DraftResponseHandoff) -> Dict[str, Any]:
+    def validate_draft(self, handoff: DraftResponseHandoff, api_key: Optional[str] = None) -> Dict[str, Any]:
         """
         Validate and review the draft response against policy and complaint.
-        To be implemented by teammate in Part 2.
         """
         raise NotImplementedError("Part 2 Review & Validation Module is to be implemented by Teammate.")
+
+
+class ChillGPTReviewer(ReviewerModuleInterface):
+    """
+    Official implementation of Part 2: Response Review and Policy Validation Module.
+    Developed by Member 2 (Vedant).
+    """
+
+    def validate_draft(self, handoff: DraftResponseHandoff, api_key: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Audits the generated draft against company policy and customer complaint.
+        """
+        return review_response(
+            customer_complaint=handoff.complaint_text,
+            company_policy=handoff.company_policy,
+            generated_response=handoff.draft_response,
+            api_key=api_key
+        )
 
 
 def create_handoff_package(
