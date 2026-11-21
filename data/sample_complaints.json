@@ -1,0 +1,39 @@
+{
+  "complaints": [
+    {
+      "id": "scenario_dropped_laptop",
+      "title": "1. Broken Screen - Demanding Instant Refund (Drop Damage Excluded)",
+      "policy_id": "techgear_electronics",
+      "text": "Hello, I purchased a ProBook laptop (Order TG-88412) about 45 days ago. Yesterday it slipped off my kitchen table and the screen completely shattered! This is ridiculous for a $1,200 device. I demand an immediate full cash refund or send me a brand new replacement by tomorrow, plus $100 compensation for emotional distress. If you refuse, I will dispute the charge with my bank and leave 1-star reviews everywhere! Fix this immediately!",
+      "expected_behavior": "Strictly decline refund, free replacement, and cash compensation since damage was accidental (drop) and outside 14 days. Empathize with the stress of a broken screen, and offer the policy-supported 20% discount on certified paid repair service with Order TG-88412. Request device serial number."
+    },
+    {
+      "id": "scenario_defective_earbuds",
+      "title": "2. Defective Earbuds Out-of-the-Box (Covered by 1-Yr Warranty)",
+      "policy_id": "techgear_electronics",
+      "text": "Hi Support Team, my name is Priya Sharma. I ordered the Nova Wireless Earbuds (Order #TG-33019) 4 days ago and received them yesterday. Unfortunately, right out of the box, the left earbud doesn't charge or turn on at all. The right one works fine. I tried resetting them according to the manual with no luck. I need a functioning replacement pair for my daily work calls. Could you please let me know how to get this swapped?",
+      "expected_behavior": "Acknowledge the defect with sincere empathy. Confirm this is fully covered under the 1-Year Limited Warranty (within 14 days of delivery). Guide customer to initiate a free replacement, asking for the product serial number."
+    },
+    {
+      "id": "scenario_shipping_delay",
+      "title": "3. In-Transit Anniversary Gift (Demanding Refund/Reroute in Transit)",
+      "policy_id": "swiftshop_ecommerce",
+      "text": "My order #SW-90214 was placed 3 business days ago with Standard Shipping. It was supposed to be my wife's 10th anniversary gift tomorrow! The tracking shows it has been sitting in Memphis for the last 20 hours without an update. I need you to immediately reroute this to my office or refund my entire order right now and give me a $50 gift card for ruining my anniversary surprise! Hurry up!",
+      "expected_behavior": "Politely and empathetically address the customer's anniversary urgency. Explain that standard shipping is 3-5 business days and tracking updates require up to 48 consecutive hours of inactivity before an investigation trace can begin. Remind customer that rerouting is only permitted within 60 minutes of ordering, and policy does not permit refunds or vouchers while actively in transit or for carrier delays. Reassure customer and explain next steps."
+    },
+    {
+      "id": "scenario_saas_forgotten_renewal",
+      "title": "4. Forgotten Monthly SaaS Renewal (Non-Refundable Subscription)",
+      "policy_id": "cloudflow_saas",
+      "text": "You guys just charged my credit card $49.00 for CloudFlow Pro! I haven't logged into this software in 3 weeks and I completely forgot to cancel before today's billing date. I want my $49 refunded back to my account immediately. It's totally unfair to charge people for software they didn't even use this month.",
+      "expected_behavior": "Respond with empathy and a calm, polite tone. Clearly explain the subscription policy: recurring automatic renewals and no refunds for unused periods or forgotten cancellations (unless an SLA downtime breach occurred). Walk the user through how to cancel now in the billing portal to prevent any future charges while retaining access until the end of the current billing cycle."
+    },
+    {
+      "id": "scenario_missing_info",
+      "title": "5. Damaged Package - Missing Order ID & Photos (Info Needed)",
+      "policy_id": "swiftshop_ecommerce",
+      "text": "Hey, I just received my parcel this afternoon and the box was completely crushed and torn open! Whatever was inside is cracked and totally unusable. I want an immediate replacement sent out to me today! This is terrible service.",
+      "expected_behavior": "Empathize with the delivery damage. Check policy: Clause 5 allows free replacement for damaged shipments reported within 48 hours, BUT customer must provide Order ID, photos of outer box, and photo of damaged item. Politely request the missing Order ID and photos before the replacement can be dispatched."
+    }
+  ]
+}
