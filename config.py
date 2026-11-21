@@ -1,6 +1,7 @@
 """
 ChillGPT - Application Configuration and UI Themes
-Visual Identity: Comic-Book Pop Art × Editorial Collage × Gen-Z Creative Studio
+Visual Identity: Neo-Minimalist Editorial & Pop Yellow Design
+Inspired by Wave AI / Rabbit r1 / Modern Japanese & Swiss Studio Aesthetic
 """
 
 import json
@@ -43,509 +44,503 @@ def load_sample_complaints() -> List[Dict[str, Any]]:
 
 def get_custom_css(theme: str = "light") -> str:
     """
-    Generates dynamic CSS for Light & Dark mode inspired by:
-    Comic-book pop art, contemporary editorial collage, and Gen-Z creative branding.
+    Generates dynamic CSS for the sleek, editorial Swiss/Japanese pop-yellow design.
+    Matches the WaveAI aesthetic from new-design.mp4:
+    - Giant ultra-bold condensed typography
+    - Pop canary yellow (#FFC700 / #FFBE00) hero container with cute mascot & phone frame
+    - Minimalist numbered editorial cards (01, 02, 03) with rounded corners (24px)
+    - Ticker marquee line
+    - Deep black pill buttons and brackets navigation [ PRODUCT ]
     """
     is_dark = (theme == "dark")
 
     if is_dark:
-        bg_main = "#121316"
-        bg_panel = "#1C1E24"
-        bg_panel_alt = "#242731"
-        bg_sidebar = "#17181E"
-        text_primary = "#F8F9FA"
-        text_secondary = "#D5D8E0"
-        text_muted = "#9BA1B0"
-        border_color = "#E2E8F0"
-        shadow_color = "#000000"
-        input_bg = "#232630"
-        halftone_color = "rgba(255, 255, 255, 0.04)"
-        badge_bg = "#2A2D3A"
-        hero_gradient = "linear-gradient(135deg, #1C1E24 0%, #292D39 100%)"
-        accent_blue = "#2563EB"
-        accent_yellow = "#FFDE00"
-        accent_pink = "#FF007F"
-        accent_orange = "#FF5500"
-        accent_cyan = "#00F0FF"
-        accent_green = "#10B981"
+        bg_main = "#0D0D11"
+        bg_card = "#16181F"
+        bg_card_alt = "#1E202A"
+        bg_sidebar = "#111217"
+        text_primary = "#FFFFFF"
+        text_secondary = "#B0B3BD"
+        text_muted = "#727788"
+        border_subtle = "rgba(255, 255, 255, 0.12)"
+        border_solid = "#FFFFFF"
+        pop_yellow = "#FFCC00"
+        btn_bg = "#FFFFFF"
+        btn_text = "#000000"
+        phone_bezel = "#222530"
+        phone_screen = "#FFCC00"
+        phone_screen_text = "#000000"
     else:
-        bg_main = "#FAF7F2"
-        bg_panel = "#FFFFFF"
-        bg_panel_alt = "#FFFDF9"
-        bg_sidebar = "#F4F0E8"
-        text_primary = "#111111"
-        text_secondary = "#333333"
-        text_muted = "#666666"
-        border_color = "#111111"
-        shadow_color = "#111111"
-        input_bg = "#FFFFFF"
-        halftone_color = "rgba(0, 0, 0, 0.04)"
-        badge_bg = "#EFECE4"
-        hero_gradient = "linear-gradient(135deg, #FFF9ED 0%, #FFF3D6 100%)"
-        accent_blue = "#0F47FF"
-        accent_yellow = "#FFE500"
-        accent_pink = "#FF007F"
-        accent_orange = "#FF5500"
-        accent_cyan = "#00E5FF"
-        accent_green = "#00C853"
+        bg_main = "#FFFFFF"
+        bg_card = "#F4F4F6"
+        bg_card_alt = "#EAEAEF"
+        bg_sidebar = "#F8F8FA"
+        text_primary = "#000000"
+        text_secondary = "#444444"
+        text_muted = "#777777"
+        border_subtle = "rgba(0, 0, 0, 0.08)"
+        border_solid = "#000000"
+        pop_yellow = "#FFC700"
+        btn_bg = "#000000"
+        btn_text = "#FFFFFF"
+        phone_bezel = "#0A0A0A"
+        phone_screen = "#FFC700"
+        phone_screen_text = "#000000"
 
     css = f"""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Anton&display=swap');
 
 :root {{
     --bg-main: {bg_main};
-    --bg-panel: {bg_panel};
-    --bg-panel-alt: {bg_panel_alt};
+    --bg-card: {bg_card};
+    --bg-card-alt: {bg_card_alt};
     --bg-sidebar: {bg_sidebar};
     --text-primary: {text_primary};
     --text-secondary: {text_secondary};
     --text-muted: {text_muted};
-    --border-color: {border_color};
-    --shadow-color: {shadow_color};
-    --input-bg: {input_bg};
-    --accent-blue: {accent_blue};
-    --accent-yellow: {accent_yellow};
-    --accent-pink: {accent_pink};
-    --accent-orange: {accent_orange};
-    --accent-cyan: {accent_cyan};
-    --accent-green: {accent_green};
+    --border-subtle: {border_subtle};
+    --border-solid: {border_solid};
+    --pop-yellow: {pop_yellow};
+    --btn-bg: {btn_bg};
+    --btn-text: {btn_text};
+    --phone-bezel: {phone_bezel};
+    --phone-screen: {phone_screen};
+    --phone-screen-text: {phone_screen_text};
 }}
 
-/* Global Reset & Comic Halftone Background */
+/* Main Canvas */
 html, body, [data-testid="stAppViewContainer"] {{
     background-color: var(--bg-main) !important;
-    background-image: radial-gradient({halftone_color} 1.5px, transparent 1.5px) !important;
-    background-size: 16px 16px !important;
     color: var(--text-primary) !important;
     font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
 }}
 
-/* Sidebar Customization */
 [data-testid="stSidebar"] {{
     background-color: var(--bg-sidebar) !important;
-    border-right: 3px solid var(--border-color) !important;
+    border-right: 1px solid var(--border-subtle) !important;
 }}
 
-/* Headings font */
-h1, h2, h3, h4, h5, h6, .brand-title, .panel-title {{
+/* Clean typography */
+h1, h2, h3, h4, h5, h6 {{
     font-family: 'Space Grotesk', sans-serif !important;
     font-weight: 800 !important;
     letter-spacing: -0.03em !important;
     color: var(--text-primary) !important;
 }}
 
-/* Top Navigation Bar */
-.top-nav-bar {{
+/* Header Navigation Bar (Matches frame 00:00) */
+.site-nav {{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 0 20px 0;
-    margin-bottom: 10px;
-    border-bottom: 2.5px solid var(--border-color);
-}}
-.nav-brand-group {{
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}}
-.nav-badge {{
-    background: var(--accent-yellow);
-    color: #111111;
+    padding: 14px 0 16px 0;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border-subtle);
     font-family: 'Space Mono', monospace;
-    font-weight: 700;
-    font-size: 0.72rem;
-    padding: 4px 10px;
-    border: 2px solid var(--border-color);
-    box-shadow: 2px 2px 0px var(--shadow-color);
+    font-size: 0.76rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    display: inline-block;
-    transform: rotate(-1.5deg);
+    letter-spacing: 0.06em;
 }}
-.brand-wordmark {{
+.nav-brand {{
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 900;
-    font-size: 1.7rem;
-    letter-spacing: -0.04em;
+    font-size: 1.15rem;
+    letter-spacing: -0.03em;
     color: var(--text-primary);
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
 }}
-.brand-wordmark span.chill {{
-    background: var(--accent-blue);
+.nav-links {{
+    display: flex;
+    gap: 20px;
+    color: var(--text-muted);
+}}
+.nav-link-item {{
+    cursor: default;
+    transition: color 0.15s ease;
+}}
+.nav-link-item:hover {{
+    color: var(--text-primary);
+}}
+.nav-pill-badge {{
+    background: #000000;
     color: #FFFFFF;
-    padding: 2px 8px;
-    border: 2px solid var(--border-color);
-    box-shadow: 2px 2px 0px var(--shadow-color);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
 }}
 
-/* Hero Section */
-.hero-box {{
-    background: {hero_gradient};
-    border: 3px solid var(--border-color);
-    box-shadow: 6px 6px 0px var(--shadow-color);
-    padding: 26px 30px;
-    margin-bottom: 28px;
+/* GIANT BACKGROUND TYPOGRAPHY (Matches frame 00:00 FORECASTS) */
+.giant-bg-word {{
+    font-family: 'Anton', 'Space Grotesk', sans-serif;
+    font-size: clamp(3.8rem, 11vw, 9.5rem);
+    font-weight: 900;
+    line-height: 0.88;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    text-align: center;
+    margin: 10px 0 -45px 0;
+    user-select: none;
+    z-index: 1;
+    position: relative;
+}}
+
+/* HERO POP-YELLOW CONTAINER (Matches frame 00:00 - 00:02) */
+.hero-yellow-container {{
+    background-color: var(--pop-yellow);
+    border-radius: 28px;
+    padding: 34px 38px;
+    margin: 0 0 32px 0;
+    color: #000000;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.06);
+}}
+.hero-content-grid {{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+}}
+.hero-left-desc {{
+    flex: 1;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #111111;
+    max-width: 320px;
+}}
+.hero-pill-btn {{
+    background: #000000;
+    color: #FFFFFF;
+    border-radius: 999px;
+    padding: 10px 22px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 800;
+    font-size: 0.88rem;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 14px;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+}}
+.hero-pill-btn:hover {{
+    transform: scale(1.04);
+    background-color: #222222;
+}}
+
+/* PHONE MOCKUP IN CENTER (Matches frame 00:00 & 00:08) */
+.phone-mockup-wrap {{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}}
+.phone-device {{
+    background: var(--phone-bezel);
+    border-radius: 40px;
+    padding: 9px;
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.22);
+    width: 200px;
+    height: 290px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}}
+.phone-notch {{
+    width: 65px;
+    height: 14px;
+    background: #000000;
+    border-radius: 20px;
+    margin: 3px auto 6px auto;
+    z-index: 5;
+}}
+.phone-inner-screen {{
+    background-color: var(--phone-screen);
+    border-radius: 32px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--phone-screen-text);
+    padding: 14px;
     position: relative;
     overflow: hidden;
 }}
-.hero-box::before {{
-    content: "⚡";
-    position: absolute;
-    right: 20px;
-    bottom: -15px;
-    font-size: 7rem;
-    opacity: 0.08;
-    pointer-events: none;
+.phone-mascot-face {{
+    font-size: 4.8rem;
+    line-height: 1;
+    margin-bottom: 4px;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.18));
 }}
-.hero-tag {{
+.phone-app-pill {{
+    background: #000000;
+    color: #FFFFFF;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-top: 6px;
+    letter-spacing: 0.05em;
+}}
+
+.hero-right-meta {{
+    flex: 1;
+    text-align: right;
     font-family: 'Space Mono', monospace;
     font-size: 0.75rem;
     font-weight: 700;
+    line-height: 1.6;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent-pink);
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}}
-.hero-title {{
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 2.6rem;
-    font-weight: 900;
-    line-height: 1.05;
-    margin: 0 0 10px 0;
-    letter-spacing: -0.04em;
-    color: var(--text-primary);
-}}
-.hero-highlight {{
-    background: var(--accent-yellow);
-    color: #111111;
-    padding: 2px 10px;
-    border: 2px solid var(--border-color);
-    display: inline-block;
-    box-shadow: 3px 3px 0px var(--shadow-color);
-    transform: rotate(0.8deg);
-}}
-.hero-sub {{
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 1.02rem;
-    color: var(--text-secondary);
-    margin: 0;
-    font-weight: 500;
+    color: #222222;
+    max-width: 320px;
 }}
 
-/* Comic Panels / Containers */
-.comic-panel {{
-    background: var(--bg-panel);
-    border: 3px solid var(--border-color);
-    box-shadow: 5px 5px 0px var(--shadow-color);
-    padding: 20px;
-    margin-bottom: 22px;
-    position: relative;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-}}
-.comic-panel-header {{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 10px;
-}}
-.panel-label {{
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 800;
-    font-size: 1.1rem;
-    letter-spacing: -0.02em;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-primary);
-}}
-.sticker-tag {{
+/* TICKER MARQUEE (Matches frame 00:03 - 00:06) */
+.ticker-wrap {{
+    width: 100%;
+    overflow: hidden;
+    padding: 10px 0;
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    margin: 0 0 32px 0;
     font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 3px 8px;
-    border: 2px solid var(--border-color);
-    box-shadow: 2px 2px 0px var(--shadow-color);
+    font-size: 0.74rem;
     text-transform: uppercase;
-    background: var(--accent-cyan);
-    color: #111111;
-    transform: rotate(1deg);
-}}
-.sticker-tag-pink {{
-    background: var(--accent-pink);
-    color: #FFFFFF;
-    transform: rotate(-1.5deg);
-}}
-.sticker-tag-yellow {{
-    background: var(--accent-yellow);
-    color: #111111;
-    transform: rotate(1.2deg);
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
 }}
 
-/* Streamlit Inputs & Textarea Overrides */
+/* NUMBERED EDITORIAL CARDS (Matches frame 00:13 - 00:15: 01, 02, 03) */
+.editorial-card {{
+    background-color: var(--bg-card);
+    border-radius: 24px;
+    padding: 26px 28px;
+    height: 100%;
+    border: 1px solid var(--border-subtle);
+    transition: transform 0.15s ease, background-color 0.15s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}}
+.editorial-card:hover {{
+    background-color: var(--bg-card-alt);
+}}
+.card-big-num {{
+    font-family: 'Anton', 'Space Grotesk', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+}}
+.card-header-label {{
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}}
+.card-sub-desc {{
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 14px;
+}}
+
+/* TEXTAREA STYLING */
 .stTextArea textarea {{
-    background-color: var(--input-bg) !important;
-    color: var(--text-primary) !important;
-    border: 2.5px solid var(--border-color) !important;
-    border-radius: 0px !important;
-    box-shadow: 3px 3px 0px var(--shadow-color) !important;
+    background-color: #FFFFFF !important;
+    color: #111111 !important;
+    border: 1px solid rgba(0,0,0,0.12) !important;
+    border-radius: 16px !important;
     font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-size: 0.95rem !important;
-    padding: 12px 14px !important;
-    line-height: 1.5 !important;
+    padding: 14px 16px !important;
+    line-height: 1.55 !important;
+    box-shadow: none !important;
 }}
 .stTextArea textarea:focus {{
-    border-color: var(--accent-blue) !important;
-    box-shadow: 4px 4px 0px var(--accent-blue) !important;
+    border-color: #000000 !important;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.1) !important;
 }}
 
-/* Primary CTA Button (MAKE IT CHILL) */
+/* CTA PRIMARY BUTTON */
 .stButton > button[kind="primary"] {{
-    background-color: var(--accent-yellow) !important;
-    color: #111111 !important;
-    border: 3px solid var(--border-color) !important;
-    border-radius: 0px !important;
-    box-shadow: 5px 5px 0px var(--shadow-color) !important;
+    background-color: #000000 !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    border-radius: 999px !important;
     font-family: 'Space Grotesk', sans-serif !important;
-    font-size: 1.15rem !important;
-    font-weight: 900 !important;
-    letter-spacing: -0.02em !important;
-    padding: 14px 24px !important;
-    transition: all 0.12s ease-in-out !important;
-    text-transform: uppercase !important;
+    font-size: 1.05rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.02em !important;
+    padding: 14px 32px !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+    transition: all 0.15s ease !important;
     cursor: pointer !important;
+    text-transform: uppercase !important;
 }}
 .stButton > button[kind="primary"]:hover {{
-    transform: translate(-2px, -2px) !important;
-    box-shadow: 7px 7px 0px var(--shadow-color) !important;
-    background-color: #FFF04D !important;
-}}
-.stButton > button[kind="primary"]:active {{
-    transform: translate(2px, 2px) !important;
-    box-shadow: 2px 2px 0px var(--shadow-color) !important;
+    transform: translateY(-2px) !important;
+    background-color: #222222 !important;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22) !important;
 }}
 
-/* Secondary / Standard Buttons */
-.stButton > button[kind="secondary"], .stButton > button:not([kind="primary"]) {{
-    background-color: var(--bg-panel) !important;
+/* SECONDARY BUTTONS */
+.stButton > button:not([kind="primary"]) {{
+    background-color: var(--bg-card) !important;
     color: var(--text-primary) !important;
-    border: 2px solid var(--border-color) !important;
-    border-radius: 0px !important;
-    box-shadow: 3px 3px 0px var(--shadow-color) !important;
+    border: 1px solid var(--border-subtle) !important;
+    border-radius: 999px !important;
     font-family: 'Space Grotesk', sans-serif !important;
     font-weight: 700 !important;
-    font-size: 0.9rem !important;
+    font-size: 0.88rem !important;
+    padding: 10px 20px !important;
     transition: all 0.12s ease !important;
 }}
 .stButton > button:not([kind="primary"]):hover {{
-    transform: translate(-1px, -1px) !important;
-    box-shadow: 4px 4px 0px var(--shadow-color) !important;
+    background-color: var(--bg-card-alt) !important;
 }}
 
-/* Tone Selector Radio Styling */
+/* TONE SELECTOR CAPSULE */
 [data-testid="stRadio"] > div {{
-    gap: 12px !important;
+    gap: 10px !important;
 }}
 [data-testid="stRadio"] label {{
-    background: var(--bg-panel) !important;
-    border: 2px solid var(--border-color) !important;
-    box-shadow: 2.5px 2.5px 0px var(--shadow-color) !important;
-    padding: 8px 16px !important;
-    border-radius: 0px !important;
+    background: #FFFFFF !important;
+    border: 1px solid var(--border-subtle) !important;
+    padding: 8px 18px !important;
+    border-radius: 999px !important;
     font-family: 'Space Grotesk', sans-serif !important;
     font-weight: 700 !important;
+    font-size: 0.88rem !important;
     cursor: pointer !important;
-    color: var(--text-primary) !important;
+    color: #111111 !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.03) !important;
 }}
 
-/* Analysis Metric Cards */
-.analysis-metric-card {{
-    background: var(--bg-panel);
-    border: 2.5px solid var(--border-color);
-    box-shadow: 4px 4px 0px var(--shadow-color);
-    padding: 14px 16px;
-    height: 100%;
+/* OUTPUT METRICS CAPSULES */
+.metric-capsule {{
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 18px 20px;
+    border: 1px solid var(--border-subtle);
 }}
-.metric-super-title {{
+.metric-capsule-lbl {{
     font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 700;
     text-transform: uppercase;
     color: var(--text-muted);
     letter-spacing: 0.05em;
     margin-bottom: 4px;
 }}
-.metric-bold-value {{
+.metric-capsule-val {{
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-weight: 800;
     color: var(--text-primary);
-    line-height: 1.2;
 }}
 
-/* Sentiment Comic Badges */
-.badge-angry {{
-    background: var(--accent-pink);
-    color: #FFFFFF;
-    padding: 3px 8px;
-    border: 2px solid var(--border-color);
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 800;
+/* STATUS PILL BADGES */
+.status-pill {{
     display: inline-block;
-}}
-.badge-frustrated {{
-    background: var(--accent-orange);
-    color: #FFFFFF;
-    padding: 3px 8px;
-    border: 2px solid var(--border-color);
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 800;
-    display: inline-block;
-}}
-.badge-anxious {{
-    background: var(--accent-yellow);
-    color: #111111;
-    padding: 3px 8px;
-    border: 2px solid var(--border-color);
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 800;
-    display: inline-block;
-}}
-.badge-disappointed {{
-    background: var(--accent-blue);
-    color: #FFFFFF;
-    padding: 3px 8px;
-    border: 2px solid var(--border-color);
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 800;
-    display: inline-block;
-}}
-.badge-neutral {{
-    background: var(--accent-cyan);
-    color: #111111;
-    padding: 3px 8px;
-    border: 2px solid var(--border-color);
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 800;
-    display: inline-block;
-}}
-
-/* Quality Check Status Stamps */
-.status-stamp {{
-    display: inline-block;
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 900;
-    font-size: 1rem;
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 6px 14px;
-    border: 3px solid var(--border-color);
-    box-shadow: 3px 3px 0px var(--shadow-color);
-    transform: rotate(-1deg);
 }}
-.stamp-compliant {{
-    background: #4ADE80;
-    color: #052E16;
+.status-compliant {{
+    background: #000000;
+    color: #4ADE80;
 }}
-.stamp-partially {{
-    background: var(--accent-yellow);
-    color: #111111;
+.status-partially {{
+    background: #FFC700;
+    color: #000000;
 }}
-.stamp-noncompliant {{
-    background: var(--accent-pink);
+.status-noncompliant {{
+    background: #EF4444;
     color: #FFFFFF;
 }}
 
-/* Centerpiece Final Word Box */
-.final-word-container {{
-    background: var(--bg-panel);
-    border: 3.5px solid var(--border-color);
-    box-shadow: 7px 7px 0px var(--shadow-color);
-    padding: 26px 28px;
-    margin: 24px 0;
-    position: relative;
+/* FINAL WORD SHOWCASE (Matches frame 00:08 - 00:10 Phone App UI) */
+.showcase-container {{
+    background-color: var(--bg-card);
+    border-radius: 32px;
+    padding: 32px 36px;
+    border: 1px solid var(--border-subtle);
+    margin: 28px 0;
 }}
-.final-word-header {{
+.showcase-header {{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2.5px solid var(--border-color);
-    padding-bottom: 14px;
-    margin-bottom: 18px;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
 }}
-.final-word-title {{
+.showcase-title {{
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.55rem;
+    font-size: 1.6rem;
     font-weight: 900;
     letter-spacing: -0.03em;
     display: flex;
     align-items: center;
     gap: 10px;
-    color: var(--text-primary);
 }}
-.final-speech-bubble {{
-    background: var(--bg-panel-alt);
-    border: 2.5px solid var(--border-color);
-    padding: 22px 24px;
+.showcase-bubble {{
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 24px 28px;
+    border: 1px solid var(--border-subtle);
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 1.05rem;
     line-height: 1.7;
-    color: var(--text-primary);
+    color: #111111;
     white-space: pre-wrap;
-    box-shadow: 4px 4px 0px var(--shadow-color);
-    position: relative;
-    border-radius: 0px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.03);
 }}
 
-/* Original Draft Panel */
-.original-draft-box {{
-    background: var(--bg-panel);
-    border: 2px solid var(--border-color);
-    box-shadow: 3px 3px 0px var(--shadow-color);
-    padding: 16px 20px;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: var(--text-secondary);
-    white-space: pre-wrap;
-}}
-
-/* Tone Scores Visual Progress Meters */
-.tone-score-card {{
-    background: var(--bg-panel);
-    border: 2px solid var(--border-color);
-    box-shadow: 3px 3px 0px var(--shadow-color);
-    padding: 10px 12px;
-    text-align: center;
-}}
-.tone-score-val {{
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.4rem;
+/* BOTTOM GIANT WORDMARK (Matches frame 00:16 WAVEAI) */
+.footer-giant-wordmark {{
+    font-family: 'Anton', 'Space Grotesk', sans-serif;
+    font-size: clamp(4rem, 13vw, 11rem);
     font-weight: 900;
-    color: var(--accent-blue);
-}}
-.tone-score-lbl {{
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
+    line-height: 0.85;
+    letter-spacing: -0.04em;
     text-transform: uppercase;
-    font-weight: 700;
-    color: var(--text-muted);
+    color: var(--text-primary);
+    text-align: center;
+    margin: 60px 0 20px 0;
+    user-select: none;
 }}
-
-/* Expander Overrides */
-.streamlit-expanderHeader {{
-    font-family: 'Space Grotesk', sans-serif !important;
-    font-weight: 700 !important;
-    border: 2px solid var(--border-color) !important;
-    box-shadow: 2px 2px 0px var(--shadow-color) !important;
-    border-radius: 0px !important;
-    background: var(--bg-panel) !important;
+.footer-meta-line {{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border-subtle);
+    padding: 16px 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }}
 </style>
 """

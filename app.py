@@ -1,6 +1,7 @@
 """
 ChillGPT – Customer Support Response Assistant
-Visual Identity: Comic-Book Pop Art × Editorial Collage × Gen-Z Creative Studio
+Visual Identity: Neo-Minimalist Editorial & Pop Yellow Design
+Inspired by Wave AI / Rabbit r1 / Modern Japanese & Swiss Studio Aesthetic
 ==============================================================================
 """
 
@@ -70,22 +71,22 @@ if "selected_tone" not in st.session_state:
     st.session_state["selected_tone"] = "Professional"
 
 # ------------------------------------------------------------------------------
-# 3. SIDEBAR CONFIGURATION (COMPACT, POLISHED, NO ACADEMIC CLUTTER)
+# 3. SIDEBAR CONFIGURATION (MINIMALIST, SLEEK)
 # ------------------------------------------------------------------------------
 with st.sidebar:
-    st.markdown(f"""
-    <div style="padding: 10px 0 16px 0; border-bottom: 2px solid var(--border-color); margin-bottom: 16px;">
-        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 900; letter-spacing: -0.02em;">
+    st.markdown("""
+    <div style="padding: 10px 0 16px 0; border-bottom: 1px solid var(--border-subtle); margin-bottom: 16px;">
+        <div style="font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 900; letter-spacing: -0.02em;">
             ⚡ STUDIO CONTROLS
         </div>
-        <div style="font-family: 'Space Mono', monospace; font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">
-            Engine Setup & Presets
+        <div style="font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">
+            Engine & Scenarios
         </div>
     </div>
     """, unsafe_allow_html=True)
 
     provider_option = st.selectbox(
-        "🧠 LLM Engine",
+        "LLM Engine",
         options=["Offline Simulator (Recommended for Demo)", "Google Gemini", "OpenAI / Compatible"],
         help="The Offline Simulator executes the exact prompt engineering extraction and generation logic deterministically without requiring an external API key."
     )
@@ -105,18 +106,14 @@ with st.sidebar:
         provider_slug = "openai"
     else:
         provider_slug = "simulator"
-        st.markdown("""
-        <div style="background: var(--bg-panel); border: 2px solid var(--border-color); padding: 8px 12px; margin-bottom: 12px; box-shadow: 2px 2px 0px var(--shadow-color); font-size: 0.8rem; font-weight: 600;">
-            ⚡ Offline Simulator Active (Zero API cost & deterministic prompt logic)
-        </div>
-        """, unsafe_allow_html=True)
+        st.caption("⚡ Offline Simulator: Fast, deterministic, and free.")
 
-    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
 
     # Pre-Loaded Test Scenarios
-    st.markdown("##### 📋 Quick Test Scenarios")
+    st.markdown("##### 📋 Load Test Scenario")
     scenario_titles = [c["title"] for c in sample_complaints]
-    selected_scenario_title = st.selectbox("Load sample case:", scenario_titles, key="scenario_selector", label_visibility="collapsed")
+    selected_scenario_title = st.selectbox("Select scenario:", scenario_titles, key="scenario_selector", label_visibility="collapsed")
 
     if st.button("📥 Load Scenario", use_container_width=True):
         matched_complaint = next((c for c in sample_complaints if c["title"] == selected_scenario_title), None)
@@ -132,7 +129,7 @@ with st.sidebar:
             st.session_state["handoff_data"] = None
             st.rerun()
 
-    st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
 
     temperature = st.slider(
         "Temperature (Grounding Control)",
@@ -143,91 +140,131 @@ with st.sidebar:
         help="Lower values enforce strict factual grounding and policy adherence."
     )
 
-# ------------------------------------------------------------------------------
-# 4. TOP BRANDING BAR & THEME SWITCHER
-# ------------------------------------------------------------------------------
-col_top_left, col_top_right = st.columns([7, 3])
-
-with col_top_left:
-    st.markdown(f"""
-    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 12px;">
-        <div class="brand-wordmark">
-            <span class="chill">CHILL</span>GPT ⚡
-        </div>
-        <div class="nav-badge">
-            {APP_STUDIO_LABEL}
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col_top_right:
-    # Theme Toggle Button
+    st.divider()
     theme_label = "🌙 Dark Mode" if st.session_state["theme_mode"] == "light" else "☀️ Light Mode"
-    theme_btn_col1, theme_btn_col2 = st.columns([1, 1])
-    with theme_btn_col2:
-        if st.button(theme_label, use_container_width=True):
-            st.session_state["theme_mode"] = "dark" if st.session_state["theme_mode"] == "light" else "light"
-            st.rerun()
+    if st.button(theme_label, use_container_width=True):
+        st.session_state["theme_mode"] = "dark" if st.session_state["theme_mode"] == "light" else "light"
+        st.rerun()
 
-# Hero Section
-st.markdown(f"""
-<div class="hero-box">
-    <div class="hero-tag"><span>⚡</span> NEXT-GEN SUPPORT COPILOT</div>
-    <h1 class="hero-title">TURN COMPLAINTS <span class="hero-highlight">INTO WINS.</span></h1>
-    <p class="hero-sub">{APP_TAGLINE} Empathetic, policy-backed customer responses generated in seconds. Zero drama, 100% compliant.</p>
+# ------------------------------------------------------------------------------
+# 4. SITE TOP NAVIGATION BAR (Matches video frame 00:00)
+# ------------------------------------------------------------------------------
+st.markdown("""
+<div class="site-nav">
+    <div class="nav-brand">CHILLGPT ✦</div>
+    <div class="nav-links">
+        <span class="nav-link-item">[ THE SITUATION ]</span>
+        <span class="nav-link-item">[ POLICY RULES ]</span>
+        <span class="nav-link-item">[ QUALITY AUDIT ]</span>
+        <span class="nav-link-item">[ THE FINAL WORD ]</span>
+    </div>
+    <div>
+        <span class="nav-pill-badge">AI COPILOT</span>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
 # ------------------------------------------------------------------------------
-# 5. MAIN WORKSPACE: 01 — THE SITUATION & 02 — THE RULES
+# 5. GIANT TYPOGRAPHY & HERO POP-YELLOW CONTAINER (Matches frame 00:00 - 00:02)
 # ------------------------------------------------------------------------------
-col_sit, col_rules = st.columns([1, 1], gap="medium")
+st.markdown("""
+<div class="giant-bg-word">CHILLGPT</div>
 
-with col_sit:
-    st.markdown("""
-    <div class="comic-panel-header">
-        <div class="panel-label">
-            <span>💥</span> 01 — THE SITUATION
+<div class="hero-yellow-container">
+    <div class="hero-content-grid">
+        <div class="hero-left-desc">
+            ✦ A.I. ENGINE DETECTS CUSTOMER GRIEVANCES BEFORE THEY ESCALATE — 100% POLICY GROUNDED.
+            <br><br>
+            <div style="font-size: 1.5rem;">✿ ⚡ 🌼</div>
         </div>
-        <div class="sticker-tag sticker-tag-pink">CUSTOMER COMPLAINT</div>
+        <div class="phone-mockup-wrap">
+            <div class="phone-device">
+                <div class="phone-notch"></div>
+                <div class="phone-inner-screen">
+                    <div style="font-family:'Space Mono', monospace; font-size:0.65rem; font-weight:700; text-transform:uppercase; margin-bottom: 2px;">
+                        CHILLGPT
+                    </div>
+                    <div class="phone-mascot-face">🐰</div>
+                    <div class="phone-app-pill">AI ASSISTANT</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-right-meta">
+            | REAL-TIME POLICY AUDIT |<br>
+            | ZERO FALSE PROMISES |<br>
+            | MULTI-TONE STEERING |<br>
+            | 100% GROUNDED RESPONSES |
+        </div>
+    </div>
+</div>
+
+<div class="ticker-wrap">
+    <span>[ COMPLAINT ANALYSIS ]</span>
+    <span>✦</span>
+    <span>[ POLICY GROUNDING ]</span>
+    <span>✦</span>
+    <span>[ FALSE PROMISE SHIELD ]</span>
+    <span>✦</span>
+    <span>[ TONE OPTIMIZER ]</span>
+    <span>✦</span>
+    <span>[ 100% VERIFIED ]</span>
+</div>
+""", unsafe_allow_html=True)
+
+# ------------------------------------------------------------------------------
+# 6. EDITORIAL WORKSPACE CARDS: 01, 02, 03 (Matches frame 00:13 - 00:15)
+# ------------------------------------------------------------------------------
+c1, c2, c3 = st.columns([1.2, 1.2, 1], gap="medium")
+
+with c1:
+    st.markdown("""
+    <div class="editorial-card">
+        <div>
+            <div class="card-big-num">01</div>
+            <div class="card-header-label">THE SITUATION</div>
+            <div class="card-sub-desc">Customer grievance, angry email, or return inquiry.</div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
     complaint_text = st.text_area(
         label="Customer Complaint Input",
         key="complaint_area",
-        height=220,
+        height=200,
         label_visibility="collapsed",
         placeholder="Paste customer grievance, angry email, or return request here..."
     )
-    st.caption(f"📝 Length: **{len(complaint_text)}** characters | **{len(complaint_text.split())}** words")
+    st.caption(f"📝 Length: **{len(complaint_text)}** chars | **{len(complaint_text.split())}** words")
 
-with col_rules:
+with c2:
     st.markdown("""
-    <div class="comic-panel-header">
-        <div class="panel-label">
-            <span>📜</span> 02 — THE RULES
+    <div class="editorial-card">
+        <div>
+            <div class="card-big-num">02</div>
+            <div class="card-header-label">THE RULES</div>
+            <div class="card-sub-desc">Company terms, return windows, warranty & refund limits.</div>
         </div>
-        <div class="sticker-tag sticker-tag-yellow">GROUNDING POLICY</div>
     </div>
     """, unsafe_allow_html=True)
     policy_text = st.text_area(
         label="Company Policy Input",
         key="policy_area",
-        height=220,
+        height=200,
         label_visibility="collapsed",
         placeholder="Paste store terms, return policy, warranty guidelines, or refund rules..."
     )
     st.caption(f"🛡️ Guardrails: **{len(policy_text.splitlines())}** policy clauses active")
 
-# ------------------------------------------------------------------------------
-# 6. TONE SELECTOR & ACTION CTA
-# ------------------------------------------------------------------------------
-st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
+with c3:
+    st.markdown("""
+    <div class="editorial-card">
+        <div>
+            <div class="card-big-num">03</div>
+            <div class="card-header-label">THE VIBE & ACTION</div>
+            <div class="card-sub-desc">Select response tone and run full generation & audit.</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
-tone_panel_col, action_col1, action_col2 = st.columns([2.2, 1.8, 0.8], gap="medium")
-
-with tone_panel_col:
-    st.markdown("**🎭 SELECT RESPONSE VIBE:**")
     current_tone = st.radio(
         label="Response Tone Selector",
         options=["Professional", "Friendly", "Empathetic"],
@@ -237,8 +274,7 @@ with tone_panel_col:
     )
     st.session_state["selected_tone"] = current_tone
 
-with action_col1:
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
     generate_btn = st.button(
         "MAKE IT CHILL ✦",
         type="primary",
@@ -246,8 +282,6 @@ with action_col1:
         help="Analyze complaint, ground against policy, draft response, and validate!"
     )
 
-with action_col2:
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
     clear_btn = st.button("RESET ↺", use_container_width=True)
     if clear_btn:
         st.session_state["analysis_result"] = None
@@ -256,7 +290,7 @@ with action_col2:
         st.rerun()
 
 # ------------------------------------------------------------------------------
-# 7. EXECUTION PIPELINE (ANALYSIS + GENERATION + PART 2 VALIDATION)
+# 7. EXECUTION PIPELINE (ANALYSIS + GENERATION + PART 2 QUALITY CHECK)
 # ------------------------------------------------------------------------------
 client = LLMClient(
     provider=provider_slug,
@@ -308,7 +342,7 @@ if generate_btn:
                 st.stop()
 
 # ------------------------------------------------------------------------------
-# 8. OUTPUT DASHBOARD: COMPLAINT ANALYSIS + ORIGINAL DRAFT + QUALITY CHECK + FINAL WORD
+# 8. OUTPUT BREAKDOWN: COMPLAINT ANALYSIS + QUALITY AUDIT + FINAL WORD
 # ------------------------------------------------------------------------------
 if st.session_state["analysis_result"] and st.session_state["draft_response"]:
     analysis = st.session_state["analysis_result"]
@@ -317,94 +351,87 @@ if st.session_state["analysis_result"] and st.session_state["draft_response"]:
     grounding = analysis.get("policy_grounding", {})
     missing_info = analysis.get("missing_information", [])
 
-    st.markdown("<hr style='border: 1.5px solid var(--border-color); margin: 30px 0;'>", unsafe_allow_html=True)
+    st.markdown("<hr style='border: 1px solid var(--border-subtle); margin: 40px 0 28px 0;'>", unsafe_allow_html=True)
 
     # ==========================================================================
-    # SECTION A: COMPLAINT ANALYSIS (03 — THE BREAKDOWN)
+    # SECTION A: THE BREAKDOWN (ANALYSIS)
     # ==========================================================================
     st.markdown("""
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
-        <div class="panel-label" style="font-size: 1.35rem;">
-            <span>🎯</span> 03 — THE BREAKDOWN
-        </div>
-        <div class="sticker-tag sticker-tag-yellow">COMPLAINT INTELLIGENCE</div>
+    <div style="font-family:'Space Grotesk', sans-serif; font-size:1.4rem; font-weight:900; margin-bottom:14px; letter-spacing:-0.03em;">
+        04 — THE BREAKDOWN ✦ COMPLAINT INTELLIGENCE
     </div>
     """, unsafe_allow_html=True)
 
-    # 4 Punchy Metric Cards
+    # 4 Metric Capsules
     m1, m2, m3, m4 = st.columns(4)
-
     sentiment = analysis.get("sentiment", "Neutral")
     intensity = analysis.get("sentiment_intensity", 5)
-    badge_cls = f"badge-{sentiment.lower()}" if sentiment.lower() in ["angry", "frustrated", "anxious", "disappointed", "neutral"] else "badge-neutral"
 
     with m1:
         st.markdown(f"""
-        <div class="analysis-metric-card">
-            <div class="metric-super-title">Customer Sentiment</div>
-            <div class="metric-bold-value"><span class="{badge_cls}">{sentiment} ({intensity}/10)</span></div>
+        <div class="metric-capsule">
+            <div class="metric-capsule-lbl">Customer Sentiment</div>
+            <div class="metric-capsule-val">⚡ {sentiment} ({intensity}/10)</div>
         </div>
         """, unsafe_allow_html=True)
 
     with m2:
         st.markdown(f"""
-        <div class="analysis-metric-card">
-            <div class="metric-super-title">Complaint Category</div>
-            <div class="metric-bold-value">🏷️ {analysis.get("category", "General")}</div>
+        <div class="metric-capsule">
+            <div class="metric-capsule-lbl">Complaint Category</div>
+            <div class="metric-capsule-val">🏷️ {analysis.get("category", "General")}</div>
         </div>
         """, unsafe_allow_html=True)
 
     with m3:
         st.markdown(f"""
-        <div class="analysis-metric-card">
-            <div class="metric-super-title">Order Identifier</div>
-            <div class="metric-bold-value">📦 {details.get("order_id", "Not provided")}</div>
+        <div class="metric-capsule">
+            <div class="metric-capsule-lbl">Order Identifier</div>
+            <div class="metric-capsule-val">📦 {details.get("order_id", "Not provided")}</div>
         </div>
         """, unsafe_allow_html=True)
 
     with m4:
         unsupported = grounding.get("unsupported_demands", [])
         status_txt = "⚠️ Out-of-Policy" if unsupported else "✅ Grounded"
-        status_c = "var(--accent-pink)" if unsupported else "var(--accent-green)"
         st.markdown(f"""
-        <div class="analysis-metric-card">
-            <div class="metric-super-title">Policy Grounding</div>
-            <div class="metric-bold-value" style="color: {status_c};">{status_txt}</div>
+        <div class="metric-capsule">
+            <div class="metric-capsule-lbl">Policy Guardrails</div>
+            <div class="metric-capsule-val">{status_txt}</div>
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
 
-    # Detailed Analysis breakdown
-    det_col1, det_col2 = st.columns([1, 1], gap="medium")
+    det_col1, det_col2 = st.columns(2, gap="medium")
     with det_col1:
         st.markdown(f"""
-        <div class="comic-panel" style="padding: 16px;">
-            <div style="font-family:'Space Grotesk', sans-serif; font-weight: 800; font-size: 1rem; margin-bottom: 8px;">
-                🎯 MAIN ISSUE & RATIONALE
+        <div class="metric-capsule">
+            <div style="font-family:'Space Grotesk', sans-serif; font-weight:800; font-size:0.95rem; margin-bottom:6px;">
+                🎯 MAIN ISSUE & SENTIMENT RATIONALE
             </div>
-            <p style="margin: 0 0 10px 0; font-weight: 600;">{analysis.get("main_issue", "No summary.")}</p>
-            <p style="margin: 0; font-size: 0.88rem; color: var(--text-secondary);">{analysis.get("sentiment_rationale", "")}</p>
+            <p style="margin: 0 0 8px 0; font-weight: 600; font-size: 0.95rem;">{analysis.get("main_issue", "No summary.")}</p>
+            <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary);">{analysis.get("sentiment_rationale", "")}</p>
         </div>
         """, unsafe_allow_html=True)
 
     with det_col2:
         st.markdown(f"""
-        <div class="comic-panel" style="padding: 16px;">
-            <div style="font-family:'Space Grotesk', sans-serif; font-weight: 800; font-size: 1rem; margin-bottom: 8px;">
+        <div class="metric-capsule">
+            <div style="font-family:'Space Grotesk', sans-serif; font-weight:800; font-size:0.95rem; margin-bottom:6px;">
                 🛡️ GROUNDING RULES APPLIED
             </div>
-            <div style="font-size: 0.88rem; margin-bottom: 6px;">
-                <strong>Declined Demands:</strong> {", ".join(grounding.get("unsupported_demands", [])) or "None; fits within policy"}
+            <div style="font-size: 0.85rem; margin-bottom: 4px;">
+                <strong>Declined:</strong> {", ".join(grounding.get("unsupported_demands", [])) or "None; fits within policy"}
             </div>
-            <div style="font-size: 0.88rem;">
-                <strong>Approved Actions:</strong> {", ".join(grounding.get("supported_actions", [])) or "Standard helpful assistance"}
+            <div style="font-size: 0.85rem;">
+                <strong>Approved Actions:</strong> {", ".join(grounding.get("supported_actions", [])) or "Standard support assistance"}
             </div>
         </div>
         """, unsafe_allow_html=True)
 
     # ==========================================================================
-    # SECTION B: PART 2 RESPONSE REVIEW & POLICY VALIDATION (THE QUALITY CHECK)
+    # SECTION B: PART 2 QUALITY AUDIT (THE QUALITY CHECK)
     # ==========================================================================
     handoff_dict = st.session_state["handoff_data"]
     handoff_obj = DraftResponseHandoff(
@@ -419,40 +446,38 @@ if st.session_state["analysis_result"] and st.session_state["draft_response"]:
     reviewer = ChillGPTReviewer()
     review_api_key = api_key if provider_slug == "gemini" and api_key else os.environ.get("GEMINI_API_KEY", "")
 
-    with st.spinner("⚡ Running Quality Check (Policy compliance, false promises & tone)..."):
+    with st.spinner("⚡ Running Quality Audit (Part 2 Policy Verification)..."):
         audit_res = reviewer.validate_draft(handoff_obj, api_key=review_api_key)
 
-    st.markdown("<hr style='border: 1.5px solid var(--border-color); margin: 30px 0;'>", unsafe_allow_html=True)
+    st.markdown("<hr style='border: 1px solid var(--border-subtle); margin: 34px 0 24px 0;'>", unsafe_allow_html=True)
 
     status = audit_res.get("compliance_status", "Non-Compliant")
-    stamp_cls = "stamp-compliant" if status == "Compliant" else ("stamp-partially" if status == "Partially Compliant" else "stamp-noncompliant")
-    mode_text = "🤖 Gemini AI Evaluation" if audit_res.get("analysis_mode") == "ai_gemini" else "⚙️ Deterministic Local Engine"
+    pill_cls = "status-compliant" if status == "Compliant" else ("status-partially" if status == "Partially Compliant" else "status-noncompliant")
+    mode_text = "🤖 Gemini AI Evaluation" if audit_res.get("analysis_mode") == "ai_gemini" else "⚙️ Deterministic Engine"
 
     st.markdown(f"""
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
         <div style="display: flex; align-items: center; gap: 14px;">
-            <div class="panel-label" style="font-size: 1.35rem;">
-                <span>🛡️</span> 04 — THE QUALITY CHECK
+            <div style="font-family:'Space Grotesk', sans-serif; font-size:1.4rem; font-weight:900; letter-spacing:-0.03em;">
+                05 — QUALITY AUDIT ✦ POLICY VERIFICATION
             </div>
-            <div class="status-stamp {stamp_cls}">
+            <div class="status-pill {pill_cls}">
                 {status}
             </div>
         </div>
-        <div class="sticker-tag sticker-tag-pink">{mode_text}</div>
+        <div style="font-family:'Space Mono', monospace; font-size:0.75rem; color:var(--text-muted);">{mode_text}</div>
     </div>
     """, unsafe_allow_html=True)
 
-    # Audit Overview Panel (Violations, False Promises, Missing Info)
-    col_q1, col_q2 = st.columns([1, 1], gap="medium")
-
-    with col_q1:
+    q_col1, q_col2 = st.columns(2, gap="medium")
+    with q_col1:
         violations = audit_res.get("policy_violations", [])
         fp_data = audit_res.get("false_promises", {})
         fp_detected = fp_data.get("detected") or fp_data.get("false_promise_detected") == "Yes"
 
         st.markdown("""
-        <div class="comic-panel" style="padding: 16px;">
-            <div style="font-family:'Space Grotesk', sans-serif; font-weight:800; font-size:1rem; margin-bottom: 8px;">
+        <div class="metric-capsule">
+            <div style="font-family:'Space Grotesk', sans-serif; font-weight:800; font-size:0.95rem; margin-bottom:8px;">
                 ⚖️ POLICY VIOLATIONS & FALSE PROMISES
             </div>
         """, unsafe_allow_html=True)
@@ -461,107 +486,104 @@ if st.session_state["analysis_result"] and st.session_state["draft_response"]:
             for v in violations:
                 st.markdown(f"- ❌ **Violation**: {v}")
         else:
-            st.markdown("✅ **Zero policy violations** detected in the draft.")
+            st.markdown("✅ **Zero policy violations** detected in the response.")
 
         if fp_detected:
-            st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
+            st.markdown("<div style='height: 6px;'></div>", unsafe_allow_html=True)
             st.markdown("⚠️ **False Promise Alert:**")
             for s in fp_data.get("suspicious_statements", []):
                 st.markdown(f"> *\"{s}\"*")
         else:
             st.markdown("✅ **No unauthorized commitments or false promises.**")
-
         st.markdown("</div>", unsafe_allow_html=True)
 
-    with col_q2:
+    with q_col2:
         missing = audit_res.get("missing_information", [])
         st.markdown("""
-        <div class="comic-panel" style="padding: 16px;">
-            <div style="font-family:'Space Grotesk', sans-serif; font-weight:800; font-size:1rem; margin-bottom: 8px;">
+        <div class="metric-capsule">
+            <div style="font-family:'Space Grotesk', sans-serif; font-weight:800; font-size:0.95rem; margin-bottom:8px;">
                 📋 REQUIRED INFORMATION AUDIT
             </div>
         """, unsafe_allow_html=True)
 
         if missing:
-            for idx, m in enumerate(missing, 1):
-                st.markdown(f"**{idx}. {m.get('item', 'Detail')}** — *{m.get('reason', '')}*")
+            for idx, item in enumerate(missing, 1):
+                st.markdown(f"**{idx}. {item.get('item', 'Item')}** — *{item.get('reason', '')}*")
         else:
-            st.markdown("✅ All necessary verification details requested from the customer.")
-
+            st.markdown("✅ All necessary customer details requested.")
         st.markdown("</div>", unsafe_allow_html=True)
 
-    # Tone Scores Display (5 Dimensions: 1-10 Scale)
+    # 5 Tone Dimensions
     st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
-    tone_scores = audit_res.get("tone_scores", {})
+    scores = audit_res.get("tone_scores", {})
     sc_cols = st.columns(5)
     metrics_meta = [
-        ("Professionalism", tone_scores.get("professionalism", 7)),
-        ("Empathy", tone_scores.get("empathy", 5)),
-        ("Politeness", tone_scores.get("politeness", 6)),
-        ("Clarity", tone_scores.get("clarity", 7)),
-        ("Friendliness", tone_scores.get("customer_friendliness", 6)),
+        ("Professionalism", scores.get("professionalism", 7)),
+        ("Empathy", scores.get("empathy", 5)),
+        ("Politeness", scores.get("politeness", 6)),
+        ("Clarity", scores.get("clarity", 7)),
+        ("Friendliness", scores.get("customer_friendliness", 6)),
     ]
     for col, (label, val) in zip(sc_cols, metrics_meta):
         with col:
             st.markdown(f"""
-            <div class="tone-score-card">
-                <div class="tone-score-val">{val}/10</div>
-                <div class="tone-score-lbl">{label}</div>
+            <div class="metric-capsule" style="text-align: center; padding: 12px;">
+                <div style="font-family:'Space Grotesk', sans-serif; font-size:1.35rem; font-weight:900;">{val}/10</div>
+                <div style="font-family:'Space Mono', monospace; font-size:0.68rem; text-transform:uppercase; color:var(--text-muted);">{label}</div>
             </div>
             """, unsafe_allow_html=True)
             st.progress(max(0.0, min(1.0, val / 10.0)))
 
     # ==========================================================================
-    # SECTION C: ORIGINAL DRAFT VS. THE FINAL WORD (CENTERPIECE)
+    # SECTION C: THE FINAL WORD ✦ READY TO SEND (CENTERPIECE)
     # ==========================================================================
-    st.markdown("<hr style='border: 1.5px solid var(--border-color); margin: 34px 0 24px 0;'>", unsafe_allow_html=True)
+    st.markdown("<hr style='border: 1px solid var(--border-subtle); margin: 36px 0 24px 0;'>", unsafe_allow_html=True)
 
-    # Expandable Original Draft
-    with st.expander("👀 View Original Draft (Part 1 Initial AI Generation)"):
+    with st.expander("👁️ View Original Draft (Part 1 Initial Generation)"):
         st.markdown(f"""
-        <div class="original-draft-box">
+        <div class="metric-capsule" style="white-space: pre-wrap; font-size: 0.92rem; line-height: 1.6;">
 {draft}
         </div>
         """, unsafe_allow_html=True)
 
-    # CENTERPIECE: THE FINAL WORD
     final_response_text = audit_res.get("improved_response") if status != "Compliant" and audit_res.get("improved_response") else draft
 
     st.markdown(f"""
-    <div class="final-word-container">
-        <div class="final-word-header">
-            <div class="final-word-title">
+    <div class="showcase-container">
+        <div class="showcase-header">
+            <div class="showcase-title">
                 <span>⚡</span> THE FINAL WORD ✦ READY TO SEND
             </div>
             <div style="display: flex; gap: 8px;">
-                <span class="sticker-tag sticker-tag-yellow">{st.session_state['selected_tone']} TONE</span>
-                <span class="sticker-tag sticker-tag-cyan">VERIFIED RESPONSE</span>
+                <span class="status-pill status-compliant">{st.session_state['selected_tone']} TONE</span>
+                <span class="status-pill status-compliant">VERIFIED</span>
             </div>
         </div>
-        <div class="final-speech-bubble">
+        <div class="showcase-bubble">
 {final_response_text}
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-    # Copy Button (Interactive HTML/JS with Visual Feedback)
-    copy_col1, copy_col2 = st.columns([1, 1])
-    with copy_col1:
+    # Interactive Copy Button
+    btn_c1, btn_c2 = st.columns([1, 1])
+    with btn_c1:
         copy_html = f"""
         <button id="copyFinalBtn" onclick="copyFinalResponse()" style="
-            background-color: var(--accent-yellow);
-            color: #111111;
-            border: 2.5px solid var(--border-color);
-            padding: 10px 22px;
+            background-color: #000000;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 999px;
+            padding: 12px 28px;
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 800;
             cursor: pointer;
-            box-shadow: 4px 4px 0px var(--shadow-color);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.15);
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.12s ease;
+            transition: all 0.15s ease;
         ">
             <span id="copyIcon">📋</span> <span id="copyText">COPY FINAL RESPONSE</span>
         </button>
@@ -572,11 +594,11 @@ if st.session_state["analysis_result"] and st.session_state["draft_response"]:
                 const btn = document.getElementById('copyFinalBtn');
                 const icon = document.getElementById('copyIcon');
                 const label = document.getElementById('copyText');
-                btn.style.backgroundColor = '#4ADE80';
+                btn.style.backgroundColor = '#16A34A';
                 icon.innerText = '✅';
                 label.innerText = 'COPIED TO CLIPBOARD!';
                 setTimeout(() => {{
-                    btn.style.backgroundColor = 'var(--accent-yellow)';
+                    btn.style.backgroundColor = '#000000';
                     icon.innerText = '📋';
                     label.innerText = 'COPY FINAL RESPONSE';
                 }}, 2500);
@@ -586,7 +608,7 @@ if st.session_state["analysis_result"] and st.session_state["draft_response"]:
         """
         components.html(copy_html, height=52)
 
-    with copy_col2:
+    with btn_c2:
         if st.button(f"🔄 Re-Draft in '{st.session_state['selected_tone']}'", use_container_width=True):
             with st.spinner("Re-drafting..."):
                 new_draft = generator.generate_response(
@@ -608,11 +630,9 @@ if st.session_state["analysis_result"] and st.session_state["draft_response"]:
                 st.session_state["handoff_data"] = handoff_pkg.to_dict()
                 st.rerun()
 
-    # ==========================================================================
-    # SECTION D: PROMPT LAB (BEHIND THE RESPONSE — COLLAPSED BY DEFAULT)
-    # ==========================================================================
-    st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
-    with st.expander("✦ BEHIND THE RESPONSE — PROMPT LAB (ACADEMIC GRADING INSPECTOR)"):
+    # Expandable Prompt Lab
+    st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
+    with st.expander("[ ✦ BEHIND THE RESPONSE — PROMPT LAB ]"):
         st.markdown("##### 1. System Prompt & Grounding Guardrails")
         st.code(CORE_SYSTEM_PROMPT, language="markdown")
 
@@ -625,5 +645,16 @@ if st.session_state["analysis_result"] and st.session_state["draft_response"]:
         st.markdown("##### 4. Response Generation Prompt Template")
         st.code(RESPONSE_USER_PROMPT, language="markdown")
 
-        st.markdown("##### 5. Part 2 Reviewer Output Payload")
+        st.markdown("##### 5. Quality Audit JSON Output")
         st.json(audit_res)
+
+# ------------------------------------------------------------------------------
+# 9. GIANT ARCHITECTURAL FOOTER WORDMARK (Matches frame 00:16 WAVEAI)
+# ------------------------------------------------------------------------------
+st.markdown("""
+<div class="footer-giant-wordmark">CHILLGPT</div>
+<div class="footer-meta-line">
+    <span>WE ARE A GLOBAL AI ENGINE TO RESOLVE COMPLAINTS BEFORE THEY ESCALATE</span>
+    <span>| CHILLGPT COPILOT | 2026 |</span>
+</div>
+""", unsafe_allow_html=True)
