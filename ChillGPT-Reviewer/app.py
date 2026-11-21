@@ -261,11 +261,58 @@ if review_clicked or "review_results" in st.session_state:
     components.html(copy_html, height=54)
 
     # Tabs for Audit Details
-    tab_audit_details, tab_tone, tab_raw_json = st.tabs([
+    tab_customer_tone, tab_audit_details, tab_tone, tab_raw_json = st.tabs([
+        "🔍 Customer Tone & Emotion Analysis",
         "🛡️ Policy & Information Verification",
         "📊 5-Dimension Tone Scores",
         "🛠️ Raw Audit JSON"
     ])
+
+    with tab_customer_tone:
+        complaint_lower = complaint_input.lower()
+        if any(w in complaint_lower for w in ["furious", "unacceptable", "scam", "shattered", "ridiculous", "terrible", "lawyer"]):
+            c_sentiment = "Angry / Hostile"
+            c_intensity = "9/10"
+            c_badge = "badge-frustrated"
+            c_urgency = "High Escalation Risk"
+        elif any(w in complaint_lower for w in ["distorted", "broken", "fix this", "annoyed", "waiting", "failed"]):
+            c_sentiment = "Frustrated / Agitated"
+            c_intensity = "8/10"
+            c_badge = "badge-frustrated"
+            c_urgency = "Elevated Friction"
+        elif any(w in complaint_lower for w in ["anniversary", "birthday", "gift", "tomorrow", "urgent"]):
+            c_sentiment = "Anxious / Urgent"
+            c_intensity = "7/10"
+            c_badge = "badge-anxious"
+            c_urgency = "Time-Sensitive"
+        else:
+            c_sentiment = "Neutral / Direct"
+            c_intensity = "5/10"
+            c_badge = "badge-neutral"
+            c_urgency = "Standard Inquiry"
+
+        st.markdown(f"""
+        <div style="background: var(--bg-card-alt); border: 1px solid var(--border-color); border-radius: 18px; padding: 20px 24px; margin-bottom: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                <span class="emotion-badge {c_badge}">CUSTOMER TONE: {c_sentiment.upper()}</span>
+                <span class="portfolio-pill-badge">{c_urgency}</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 10px;">
+                <div class="metric-tile">
+                    <div class="metric-tile-label">Customer Emotion</div>
+                    <div class="metric-tile-value">💬 {c_sentiment}</div>
+                </div>
+                <div class="metric-tile">
+                    <div class="metric-tile-label">Emotional Intensity</div>
+                    <div class="metric-tile-value">⚡ {c_intensity}</div>
+                </div>
+                <div class="metric-tile">
+                    <div class="metric-tile-label">Urgency Level</div>
+                    <div class="metric-tile-value">⏱️ {c_urgency}</div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
     with tab_audit_details:
         res_col1, res_col2 = st.columns(2, gap="medium")

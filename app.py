@@ -418,9 +418,108 @@ elif st.session_state["active_nav"] == "Create Response":
         chip_class = "chip-compliant" if status == "Compliant" else ("chip-partially" if status == "Partially Compliant" else "chip-noncompliant")
         final_response_text = audit_res.get("improved_response") if status != "Compliant" and audit_res.get("improved_response") else draft
 
-        st.markdown("<hr style='border: 1px solid var(--border-color); margin: 36px 0 24px 0;'>", unsafe_allow_html=True)
+        st.markdown("<hr style='border: 1px solid var(--border-color); margin: 32px 0 20px 0;'>", unsafe_allow_html=True)
 
-        # 1. FINAL RESPONSE READING CANVAS
+        # ----------------------------------------------------------------------
+        # 1. NEW FEATURE: CUSTOMER GRIEVANCE & TONE INTELLIGENCE ANALYSIS
+        # ----------------------------------------------------------------------
+        details = analysis.get("important_details", {})
+        grounding = analysis.get("policy_grounding", {})
+        sentiment = analysis.get("sentiment", "Frustrated")
+        intensity = analysis.get("sentiment_intensity", 7)
+        rationale = analysis.get("sentiment_rationale", "")
+        category = analysis.get("category", "General Inquiry")
+        main_issue = analysis.get("main_issue", "")
+        order_id = details.get("order_id", "Not provided")
+        product_name = details.get("product_name", "Not provided")
+        demands = details.get("demands_made", [])
+        unsupported = grounding.get("unsupported_demands", [])
+
+        # Tone and Escalation Classification
+        if sentiment in ["Angry", "Furious"]:
+            badge_cls = "badge-frustrated"
+            tone_label = "Angry / Hostile"
+            urgency_level = "High Priority"
+            risk_label = "🚨 High Escalation Risk"
+        elif sentiment in ["Frustrated"]:
+            badge_cls = "badge-frustrated"
+            tone_label = "Frustrated / Dissatisfied"
+            urgency_level = "Elevated"
+            risk_label = "⚡ Friction Detected"
+        elif sentiment in ["Anxious", "Worried"]:
+            badge_cls = "badge-anxious"
+            tone_label = "Anxious / Time-Sensitive"
+            urgency_level = "Urgent"
+            risk_label = "⚠️ Urgent Assistance"
+        elif sentiment in ["Disappointed"]:
+            badge_cls = "badge-disappointed"
+            tone_label = "Disappointed / Let Down"
+            urgency_level = "Moderate"
+            risk_label = "🌿 Retention Risk"
+        else:
+            badge_cls = "badge-neutral"
+            tone_label = "Neutral / Direct"
+            urgency_level = "Standard"
+            risk_label = "🟢 Low Risk"
+
+        demands_str = ", ".join(demands) if demands else "General assistance or resolution"
+        policy_status_str = f"⚠️ Demands out-of-policy: {', '.join(unsupported)}" if unsupported else "✅ Demands are covered by company terms"
+
+        st.markdown(f"""
+        <div class="intelligence-card">
+            <div class="intelligence-header">
+                <div class="intelligence-title">
+                    <span>🔍</span> Customer Grievance & Tone Analysis
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                    <span class="emotion-badge {badge_cls}">{sentiment.upper()} ({intensity}/10)</span>
+                    <span class="portfolio-pill-badge">{risk_label}</span>
+                </div>
+            </div>
+            <div style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5;">
+                <strong>Customer Emotional Tone:</strong> Customer communicates in a <em>{tone_label}</em> manner. {rationale}
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-bottom: 18px;">
+                <div class="metric-tile">
+                    <div class="metric-tile-label">Customer Emotion</div>
+                    <div class="metric-tile-value">💬 {sentiment} ({intensity}/10)</div>
+                </div>
+                <div class="metric-tile">
+                    <div class="metric-tile-label">Urgency Assessment</div>
+                    <div class="metric-tile-value">⏱️ {urgency_level}</div>
+                </div>
+                <div class="metric-tile">
+                    <div class="metric-tile-label">Complaint Category</div>
+                    <div class="metric-tile-value">🏷️ {category}</div>
+                </div>
+                <div class="metric-tile">
+                    <div class="metric-tile-label">Order Identifier</div>
+                    <div class="metric-tile-value">📦 {order_id}</div>
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px;">
+                <div style="background: var(--bg-card-alt); border: 1px solid var(--border-color); border-radius: 14px; padding: 16px 18px;">
+                    <div class="metric-tile-label">Core Pain Point & Root Cause</div>
+                    <div style="font-weight: 600; font-size: 0.98rem; margin-top: 4px; line-height: 1.5; color: var(--text-primary);">
+                        {main_issue}
+                    </div>
+                </div>
+                <div style="background: var(--bg-card-alt); border: 1px solid var(--border-color); border-radius: 14px; padding: 16px 18px;">
+                    <div class="metric-tile-label">Customer Demands & Policy Grounding</div>
+                    <div style="font-size: 0.92rem; margin-top: 4px; line-height: 1.5;">
+                        <strong>Demands:</strong> {demands_str}
+                    </div>
+                    <div style="font-size: 0.9rem; margin-top: 4px; color: var(--text-secondary);">
+                        <strong>Policy Alignment:</strong> {policy_status_str}
+                    </div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # ----------------------------------------------------------------------
+        # 2. FINAL RESPONSE READING CANVAS
+        # ----------------------------------------------------------------------
         st.markdown(f"""
         <div class="reading-canvas">
             <div class="reading-canvas-header">
@@ -438,8 +537,8 @@ elif st.session_state["active_nav"] == "Create Response":
         </div>
         """, unsafe_allow_html=True)
 
-        # 1-Click Copy and Action Controls
-        act_col1, act_col2, act_col3 = st.columns([1.2, 1.0, 0.8], gap="medium")
+        # 1-Click Copy and Start Fresh (Re-Draft removed as requested)
+        act_col1, act_col2 = st.columns([1.5, 1.0], gap="medium")
         with act_col1:
             copy_html = f"""
             <button id="copyBtn" onclick="copyText()" style="
@@ -484,28 +583,6 @@ elif st.session_state["active_nav"] == "Create Response":
             components.html(copy_html, height=54)
 
         with act_col2:
-            if st.button(f"🔄 Re-Draft ({st.session_state['selected_tone']})", use_container_width=True):
-                with st.spinner("Re-drafting..."):
-                    new_draft = generator.generate_response(
-                        complaint_text=complaint_text,
-                        company_policy=policy_text,
-                        analysis_data=st.session_state["analysis_result"],
-                        tone=st.session_state["selected_tone"],
-                        temperature=temperature
-                    )
-                    st.session_state["draft_response"] = new_draft
-                    handoff_pkg = create_handoff_package(
-                        complaint_text=complaint_text,
-                        company_policy=policy_text,
-                        analysis=st.session_state["analysis_result"],
-                        tone=st.session_state["selected_tone"],
-                        draft_response=new_draft,
-                        model_name=client.model_name
-                    )
-                    st.session_state["handoff_data"] = handoff_pkg.to_dict()
-                    st.rerun()
-
-        with act_col3:
             if st.button("Start Fresh ↺", use_container_width=True):
                 st.session_state["analysis_result"] = None
                 st.session_state["draft_response"] = None

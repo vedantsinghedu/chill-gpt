@@ -645,6 +645,56 @@ p, span, div, label {{
     color: var(--text-primary);
 }}
 
+/* Customer Grievance & Tone Intelligence Card */
+.intelligence-card {{
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 26px 30px;
+    box-shadow: var(--shadow-soft);
+    margin: 22px 0 18px 0;
+    animation: fadeInScale 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}}
+.intelligence-header {{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 10px;
+}}
+.intelligence-title {{
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}}
+.badge-frustrated {{
+    background: rgba(244, 63, 94, 0.12);
+    color: #E11D48;
+    border: 1px solid rgba(244, 63, 94, 0.3);
+}}
+.badge-anxious {{
+    background: rgba(245, 158, 11, 0.12);
+    color: #D97706;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}}
+.badge-disappointed {{
+    background: rgba(139, 92, 246, 0.12);
+    color: #7C3AED;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}}
+.badge-neutral {{
+    background: rgba(100, 116, 139, 0.12);
+    color: #475569;
+    border: 1px solid rgba(100, 116, 139, 0.3);
+}}
+
 /* Tone Scores Visual Progress */
 .tone-metric-row {{
     background: var(--bg-card-alt);
