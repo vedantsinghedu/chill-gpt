@@ -1,9 +1,9 @@
 """
-ChillGPT — Part 2: Response Review & Policy Validation Module
+ChillGPT — Customer Support Response Assistant
+Part 2: Response Review and Policy Validation Module
+Professional Enterprise Complaint Management & Response Assistant
+Visual Identity: Clean Modern SaaS, Fluid Navigation, Refined Motion & Accessible Contrast
 Author: Member 2 (Vedant)
-Visual Identity: Minimalist Creative Portfolio + Cute AI Companion Experience
-Color Palette: Warm Cream, Soft White, Lavender Accents, Playful Mascot "Chilly"
-==============================================================================
 """
 
 import os
@@ -21,14 +21,14 @@ if str(parent_dir) not in sys.path:
     sys.path.insert(0, str(parent_dir))
 
 from modules.response_reviewer import review_response
-from config import get_custom_css, render_mascot_svg, APP_TITLE, APP_ICON
+from config import get_custom_css, APP_TITLE, APP_ICON
 
 # Page Configuration
 st.set_page_config(
-    page_title=f"{APP_TITLE} ✦ Quality & Policy Audit",
+    page_title=f"{APP_TITLE} | Quality & Policy Audit (Part 2)",
     page_icon=APP_ICON,
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="expanded"
 )
 
 # Theme State
@@ -70,12 +70,12 @@ PRESETS = {
 # Sidebar - Settings & Preset Selection
 with st.sidebar:
     st.markdown("""
-    <div style="padding: 10px 0 12px 0; border-bottom: 1px solid var(--border-color); margin-bottom: 16px;">
-        <div style="font-size: 1.1rem; font-weight: 800; letter-spacing: -0.02em;">
-            ✨ AUDITOR CONTROLS
+    <div style="padding: 10px 0 14px 0; border-bottom: 1px solid var(--border-color); margin-bottom: 16px;">
+        <div style="font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em;">
+            🛡️ AUDITOR SETTINGS
         </div>
-        <div style="font-size: 0.76rem; color: var(--text-muted); text-transform: uppercase;">
-            Part 2 Policy Engine
+        <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">
+            Part 2 Quality Engine
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -103,86 +103,83 @@ with st.sidebar:
     )
 
     st.divider()
-    theme_label = "🌙 Midnight Studio" if st.session_state["theme_mode"] == "light" else "☀️ Warm Cream"
+    theme_label = "🌙 Switch to Dark Mode" if st.session_state["theme_mode"] == "light" else "☀️ Switch to Light Mode"
     if st.button(theme_label, use_container_width=True):
         st.session_state["theme_mode"] = "dark" if st.session_state["theme_mode"] == "light" else "light"
         st.rerun()
 
-# Top Portfolio Navigation Bar
-nav_c1, nav_spacer, nav_theme = st.columns([2.5, 4, 1.2], gap="small")
-with nav_c1:
-    st.markdown(f"""
-    <div style="display:flex; align-items:center; gap:8px; padding-top:4px;">
-        <span style="font-size:1.25rem;">✨</span>
-        <span style="font-weight:800; font-size:1.15rem; letter-spacing:-0.03em;">{APP_TITLE}</span>
-        <span class="portfolio-pill-badge">PART 2 AUDITOR</span>
+# Top Navbar
+st.markdown(f"""
+<div class="app-navbar">
+    <div class="nav-brand-group">
+        <div class="brand-logo-icon">🛡️</div>
+        <div>
+            <div class="brand-name">{APP_TITLE}</div>
+            <div class="brand-tagline">Quality & Compliance Audit Module (Part 2)</div>
+        </div>
     </div>
-    """, unsafe_allow_html=True)
-
-with nav_theme:
-    mode_icon = "🌙" if st.session_state["theme_mode"] == "light" else "☀️"
-    mode_txt = "Dark" if st.session_state["theme_mode"] == "light" else "Light"
-    if st.button(f"{mode_icon} {mode_txt}", use_container_width=True):
-        st.session_state["theme_mode"] = "dark" if st.session_state["theme_mode"] == "light" else "light"
-        st.rerun()
-
-st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
+    <div class="nav-status-group">
+        <div class="system-status-indicator">
+            <div class="status-dot"></div>
+            <span>Auditor Active</span>
+        </div>
+        <div class="pro-card-badge">
+            {st.session_state['theme_mode'].upper()}
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 preset_data = PRESETS[selected_scenario]
-
-# Mascot Stage
-has_audited = ("review_results" in st.session_state)
-mascot_state = "success" if has_audited else "idle"
-mascot_msg = "Audit complete! Take a look at the verified response below." if has_audited else "Ready to audit. Check policy rules, false promises, and tone."
-
-st.markdown(render_mascot_svg(
-    state=mascot_state,
-    message=mascot_msg,
-    theme=st.session_state["theme_mode"]
-), unsafe_allow_html=True)
 
 # 2-Column Compact Intake
 col_inputs, col_draft = st.columns([1.1, 1.1], gap="large")
 
 with col_inputs:
     st.markdown("""
-    <div style="font-weight:700; font-size:1.02rem; margin-bottom:6px;">
-        <span>📩</span> Grievance & Policy Guidelines
+    <div class="pro-card-header" style="margin-bottom: 8px;">
+        <div class="pro-card-title">
+            <span>📩</span> Customer Grievance & Policy
+        </div>
+        <span class="pro-card-badge">01 Intake & Rules</span>
     </div>
     """, unsafe_allow_html=True)
     complaint_input = st.text_area(
         "Complaint Input",
         value=preset_data["complaint"],
-        height=95,
+        height=100,
         label_visibility="collapsed",
         placeholder="Customer complaint text..."
     )
     policy_input = st.text_area(
         "Policy Input",
         value=preset_data["policy"],
-        height=95,
+        height=100,
         label_visibility="collapsed",
         placeholder="Company policy rules..."
     )
 
 with col_draft:
     st.markdown("""
-    <div style="font-weight:700; font-size:1.02rem; margin-bottom:6px;">
-        <span>✍️</span> Response Draft to Audit
+    <div class="pro-card-header" style="margin-bottom: 8px;">
+        <div class="pro-card-title">
+            <span>✍️</span> Response Draft to Audit
+        </div>
+        <span class="pro-card-badge">02 Agent / AI Draft</span>
     </div>
     """, unsafe_allow_html=True)
     response_input = st.text_area(
         "Draft Input",
         value=preset_data["response"],
-        height=140,
+        height=145,
         label_visibility="collapsed"
     )
 
-    review_clicked = st.button("Audit & Validate Response ✦", type="primary", use_container_width=True)
+    review_clicked = st.button("AUDIT & VALIDATE RESPONSE →", type="primary", use_container_width=True)
 
 if review_clicked or "review_results" in st.session_state:
     if review_clicked:
-        with st.spinner("Checking policy compliance and tone dimensions..."):
+        with st.spinner("Running Quality Audit against policy rules and tone guidelines..."):
             results = review_response(
                 customer_complaint=complaint_input,
                 company_policy=policy_input,
@@ -194,26 +191,26 @@ if review_clicked or "review_results" in st.session_state:
         results = st.session_state["review_results"]
 
     status = results.get("compliance_status", "Non-Compliant")
-    pill_cls = "pill-compliant" if status == "Compliant" else ("pill-warning" if status == "Partially Compliant" else "pill-danger")
+    chip_class = "chip-compliant" if status == "Compliant" else ("chip-partially" if status == "Partially Compliant" else "chip-noncompliant")
     mode = results.get("analysis_mode", "deterministic_fallback")
     mode_label = "🤖 Gemini AI Evaluation" if mode == "ai_gemini" else "⚙️ Deterministic Validation Engine"
     improved_text = results.get("improved_response", "")
 
     st.markdown("<hr style='border: 1px solid var(--border-color); margin: 24px 0 18px 0;'>", unsafe_allow_html=True)
 
-    # FINAL AUDITED RESPONSE READING CANVAS
+    # FINAL AUDITED RESPONSE PLACED IMMEDIATELY AT TOP (ZERO SCROLLING!)
     st.markdown(f"""
-    <div class="reading-canvas">
-        <div class="reading-canvas-header">
-            <div class="reading-canvas-title">
+    <div class="resolution-card">
+        <div class="resolution-header">
+            <div style="font-size: 1.25rem; font-weight: 800; display: flex; align-items: center; gap: 10px;">
                 <span>✨</span> Final Audited Response
             </div>
             <div style="display: flex; gap: 8px; align-items: center;">
-                <span class="pill-badge {pill_cls}">{status}</span>
+                <span class="status-chip {chip_class}">{status}</span>
                 <span style="font-family:'JetBrains Mono', monospace; font-size:0.75rem; color:var(--text-muted);">{mode_label}</span>
             </div>
         </div>
-        <div class="reading-canvas-body">
+        <div class="resolution-body">
 {improved_text}
         </div>
     </div>
@@ -222,21 +219,21 @@ if review_clicked or "review_results" in st.session_state:
     # 1-Click Copy Button
     copy_html = f"""
     <button id="copyFinalBtn" onclick="copyFinalResponse()" style="
-        background: #2D2B2A;
+        background-color: var(--primary-blue, #1D4ED8);
         color: #FFFFFF;
         border: none;
-        border-radius: 999px;
-        padding: 12px 26px;
+        border-radius: 10px;
+        padding: 13px 26px;
         font-family: 'Plus Jakarta Sans', sans-serif;
-        font-size: 0.98rem;
+        font-size: 1.02rem;
         font-weight: 700;
         cursor: pointer;
-        box-shadow: 0 4px 14px rgba(45, 43, 42, 0.15);
+        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        transition: all 0.2s ease;
-        margin-bottom: 14px;
+        gap: 10px;
+        transition: all 0.15s ease;
+        margin-bottom: 16px;
     ">
         <span id="copyIcon">📋</span> <span id="copyText">Copy Audited Response</span>
     </button>
@@ -247,11 +244,11 @@ if review_clicked or "review_results" in st.session_state:
             const btn = document.getElementById('copyFinalBtn');
             const icon = document.getElementById('copyIcon');
             const label = document.getElementById('copyText');
-            btn.style.background = '#059669';
+            btn.style.backgroundColor = '#059669';
             icon.innerText = '✅';
-            label.innerText = 'Copied to clipboard!';
+            label.innerText = 'Copied to Clipboard!';
             setTimeout(() => {{
-                btn.style.background = '#2D2B2A';
+                btn.style.backgroundColor = '#1D4ED8';
                 icon.innerText = '📋';
                 label.innerText = 'Copy Audited Response';
             }}, 2500);
@@ -259,9 +256,9 @@ if review_clicked or "review_results" in st.session_state:
     }}
     </script>
     """
-    components.html(copy_html, height=54)
+    components.html(copy_html, height=56)
 
-    # Clean Soft Tabs for Audit Details
+    # Clean Tabs for Audit Details (Zero Scrolling!)
     tab_audit_details, tab_tone, tab_raw_json = st.tabs([
         "🛡️ Policy & Information Verification",
         "📊 5-Dimension Tone Scores",
@@ -271,30 +268,62 @@ if review_clicked or "review_results" in st.session_state:
     with tab_audit_details:
         res_col1, res_col2 = st.columns(2, gap="medium")
         with res_col1:
-            st.markdown("<div style='font-size:0.9rem; font-weight:700; margin-bottom:8px;'>⚖️ Policy Violations & Commitments</div>", unsafe_allow_html=True)
+            st.markdown("""
+            <div class="metric-tile">
+                <div class="metric-tile-label" style="margin-bottom: 8px;">⚖️ Policy Violations & Commitments</div>
+            """, unsafe_allow_html=True)
             violations = results.get("policy_violations", [])
             if violations:
                 for v in violations:
-                    st.markdown(f"""<div class="soft-callout callout-danger">⚠️ <strong>Policy Violation:</strong> {v}</div>""", unsafe_allow_html=True)
+                    st.markdown(f"""
+                    <div class="alert-container-danger">
+                        <strong>Policy Violation:</strong> {v}
+                    </div>
+                    """, unsafe_allow_html=True)
             else:
-                st.markdown("""<div class="soft-callout callout-success">✅ <strong>No policy violations detected:</strong> Conforms to guidelines.</div>""", unsafe_allow_html=True)
+                st.markdown("""
+                <div class="alert-container-success">
+                    ✅ <strong>No policy violations detected:</strong> The draft strictly adheres to company guidelines.
+                </div>
+                """, unsafe_allow_html=True)
 
             fp_data = results.get("false_promises", {})
             fp_detected = fp_data.get("detected") or fp_data.get("false_promise_detected") == "Yes"
             if fp_detected:
                 for s in fp_data.get("suspicious_statements", []):
-                    st.markdown(f"""<div class="soft-callout callout-warning">⚠️ <strong>False Promise Alert:</strong> <em>"{s}"</em></div>""", unsafe_allow_html=True)
+                    st.markdown(f"""
+                    <div class="alert-container-warning">
+                        ⚠️ <strong>False Promise Alert:</strong> <em>"{s}"</em>
+                    </div>
+                    """, unsafe_allow_html=True)
             else:
-                st.markdown("""<div class="soft-callout callout-success">✅ <strong>Zero false promises:</strong> No unauthorized commitments made.</div>""", unsafe_allow_html=True)
+                st.markdown("""
+                <div class="alert-container-success">
+                    ✅ <strong>Zero false promises:</strong> No unauthorized commitments made to the customer.
+                </div>
+                """, unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True)
 
         with res_col2:
-            st.markdown("<div style='font-size:0.9rem; font-weight:700; margin-bottom:8px;'>📋 Required Customer Details</div>", unsafe_allow_html=True)
+            st.markdown("""
+            <div class="metric-tile">
+                <div class="metric-tile-label" style="margin-bottom: 8px;">📋 Required Customer Details</div>
+            """, unsafe_allow_html=True)
             missing = results.get("missing_information", [])
             if missing:
                 for idx, item in enumerate(missing, 1):
-                    st.markdown(f"""<div class="soft-callout callout-warning"><strong>{idx}. {item.get('item', 'Item')}:</strong> {item.get('reason', '')}</div>""", unsafe_allow_html=True)
+                    st.markdown(f"""
+                    <div class="alert-container-warning">
+                        <strong>{idx}. {item.get('item', 'Item')}:</strong> {item.get('reason', '')}
+                    </div>
+                    """, unsafe_allow_html=True)
             else:
-                st.markdown("""<div class="soft-callout callout-success">✅ <strong>Complete:</strong> All necessary verification details requested.</div>""", unsafe_allow_html=True)
+                st.markdown("""
+                <div class="alert-container-success">
+                    ✅ <strong>Complete:</strong> All necessary verification details requested from the customer.
+                </div>
+                """, unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True)
 
     with tab_tone:
         scores = results.get("tone_scores", {})
@@ -309,9 +338,9 @@ if review_clicked or "review_results" in st.session_state:
         for col, (label, val) in zip(sc_cols, metrics_meta):
             with col:
                 st.markdown(f"""
-                <div class="tone-score-card">
-                    <div class="tone-score-val">{val}/10</div>
-                    <div class="tone-score-lbl">{label}</div>
+                <div class="tone-metric-row">
+                    <div class="tone-score-num">{val}/10</div>
+                    <div class="tone-score-tag">{label}</div>
                 </div>
                 """, unsafe_allow_html=True)
                 st.progress(max(0.0, min(1.0, val / 10.0)))
@@ -321,12 +350,12 @@ if review_clicked or "review_results" in st.session_state:
 
 # Footer
 st.markdown(f"""
-<div class="portfolio-footer">
-    <div class="portfolio-footer-brand">
-        <span>✨</span> {APP_TITLE} · Response Review & Policy Validation Module (Part 2)
+<div class="pro-footer">
+    <div class="pro-footer-brand">
+        <span>🛡️</span> {APP_TITLE} · Response Review & Policy Validation Module (Part 2)
     </div>
-    <div>
-        Author: Member 2 (Vedant) · Warm Cream Edition · 2026
+    <div class="pro-footer-meta">
+        Author: Member 2 (Vedant) · 2026 Enterprise Edition
     </div>
 </div>
 """, unsafe_allow_html=True)
