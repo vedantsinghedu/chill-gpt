@@ -1,0 +1,22 @@
+{
+  "policies": [
+    {
+      "id": "techgear_electronics",
+      "name": "TechGear Electronics - Returns & Warranty Policy",
+      "description": "Consumer electronics return, warranty, and repair policy.",
+      "text": "TECHGEAR CONSUMER ELECTRONICS POLICY:\n1. RETURN WINDOW: Customers may return unopened, unused products in original packaging within 14 days of delivery for a full refund minus a $15 restocking/return shipping fee.\n2. DEFECTIVE ITEMS: Products that arrive defective or fail due to manufacturer defect are covered under our 1-Year Limited Warranty. Eligible for free replacement or certified repair.\n3. ACCIDENTAL DAMAGE EXCLUSION: Drops, spills, water damage, cracked screens, unauthorized tampering, and cosmetic wear are NOT covered under warranty or return policy. Customers with accidental damage may be offered paid repairs at 20% off standard service rates.\n4. REFUND METHOD: All approved refunds are issued strictly to the original payment method within 5-7 business days after inspection at our warehouse. Cash, instant refunds, or store-credit conversions are not offered.\n5. SUPPORT CHANNELS: Customers must provide a valid Order ID (format: TG-XXXXX) and serial number to initiate warranty claims."
+    },
+    {
+      "id": "swiftshop_ecommerce",
+      "name": "SwiftShop E-Commerce - Shipping & Delivery Policy",
+      "description": "Online retail delivery windows, missing packages, and delay policy.",
+      "text": "SWIFTSHOP SHIPPING AND DELIVERY POLICY:\n1. DELIVERY TIMELINES: Standard Shipping delivers within 3 to 5 business days. Express Shipping delivers within 1 to 2 business days. Delivery dates are estimates, not guarantees.\n2. ADDRESS CHANGES: Delivery address modifications can only be requested within 60 minutes of placing the order. Once dispatched, carrier rerouting is not supported.\n3. IN-TRANSIT & DELAYED PACKAGES: If a tracking status has not updated for more than 48 consecutive hours during business days, support will open a carrier trace investigation (takes 24-48 hours). Reshipments or refunds are strictly NOT permitted while a package is actively moving in transit or before 7 business days have passed without movement.\n4. WEATHER & CARRIER DELAYS: Carrier delays caused by adverse weather conditions, customs, or natural disruptions are outside company control and do not qualify for shipping refunds or monetary compensation.\n5. DAMAGED SHIPMENTS: If package arrives visibly damaged, customer must report within 48 hours of delivery with photos of the outer box and damaged item to receive a free replacement."
+    },
+    {
+      "id": "cloudflow_saas",
+      "name": "CloudFlow SaaS - Subscription & Billing Policy",
+      "description": "Software subscription, renewal, cancellation, and refund policy.",
+      "text": "CLOUDFLOW SOFTWARE SUBSCRIPTION POLICY:\n1. SUBSCRIPTION PLANS: Subscriptions renew automatically each billing cycle (monthly or annual) unless cancelled before the renewal date.\n2. CANCELLATION: Customers can cancel at any time via the billing portal. Cancellation stops future renewals; access remains active until the end of the paid billing period.\n3. NO-REFUND POLICY: Subscription fees are non-refundable for partial months, unused features, or forgotten cancellations. No prorated refunds are issued.\n4. EXCEPTION (SLA BREACH): Refunds or service credits are only provided if verified service uptime drops below our 99.9% Service Level Agreement (SLA) in a given billing month.\n5. DATA RETENTION: Customer data and project files are safely preserved for 30 days following cancellation before permanent deletion."
+    }
+  ]
+}
